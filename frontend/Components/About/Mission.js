@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 const Mission = () => {
   return (
@@ -7,8 +8,9 @@ const Mission = () => {
           <div>
             <img
               className="h-80 rounded-full"
-              src="Media/Images/mission.png"
-              alt=""
+              src="/media/mission.png"
+              alt="image"
+              onContextMenu={e => e.preventDefault()}
             />
           </div>
         </div>
@@ -25,15 +27,16 @@ const Mission = () => {
           <p className="text-xl font-semibold text-gray-500">
             Our vision is to be the one stop shop for your finances
             <br />
-            Your Family's Super Money App
+            Your Family&#39;s Super Money App
           </p>
         </div>
         <div className="flex flex-row px-15 mx-5 my-4">
           <div>
             <img
               className="h-80 rounded-full"
-              src="Media/Images/vision.png"
-              alt=""
+              src="/media/vision.png"
+              alt="image"
+              onContextMenu={e => e.preventDefault()}
             />
           </div>
         </div>

@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import Hero from "../About/Hero";
 import Mission from "../About/Mission";

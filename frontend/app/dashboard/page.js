@@ -1,11 +1,14 @@
 import React from "react";
+import WatchlistComponent from "./watchlist/WatchlistComponent";
 
 const page = () => {
   return (
     <>
-      <div className="flex flex-row w-full justify-evenly h-160 ">
-        <div className="w-full px-7.5"></div>
-        <div className="border-1 rounded-2xl px-2 my-5 w-full">
+      <div className="flex flex-row w-full items-center ">
+        <div className="w-full px-7.5">
+         <WatchlistComponent/>
+        </div>
+        <div className="border-1 rounded-2xl px-2 my-2 w-full">
           <div className="username text-5xl text-center my-10  font-serif">
             <h6 className="py-5 mb-6 ">Hi, User!</h6>
             <hr className="divider" />
@@ -42,8 +45,8 @@ const page = () => {
 
             <div className="data flex flex-row text-center items-center justify-evenly mb-3 text-xl ">
               <div className="first w-full">
-                <h3 className="profit text-3xl mt-5 border-r-2 py-1 ">
-                  1.55k <small>+5.20%</small>
+                <h3 className="profit text-3xl  mt-5 border-r-2 py-1 ">
+                  <span className="text-green-400">1.55k <small>+5.20%</small></span>
                 </h3>
                 <p>P&L</p>
               </div>

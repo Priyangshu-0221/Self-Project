@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 const People = () => {
@@ -10,8 +11,9 @@ const People = () => {
         <div className="px-10">
           <img
             className="h-90 w-90 rounded-full"
-            src="Media/Images/owner.png"
-            alt=""
+            src="/media/owner.png"
+            alt="image"
+            onContextMenu={e => e.preventDefault()}
           />
           <h1 className="text-center my-3 font-medium text-xl">
             Priyangshu Mondal

@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 const RightSection = ({ imgUrl, prod_des, prod_name, learnmore, glgplay }) => {
@@ -14,7 +15,7 @@ const RightSection = ({ imgUrl, prod_des, prod_name, learnmore, glgplay }) => {
           </div>
         </div>
         <div>
-          <img className="h-110 w-275 rounded-xl " src={imgUrl} alt="image" />
+          <img className="h-110 w-275 rounded-xl " src={imgUrl} onContextMenu={e => e.preventDefault()} alt="image" />
         </div>
       </div>
     </>

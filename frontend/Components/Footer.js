@@ -3,13 +3,13 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <div className="bg-[#ECF8F8]">
+      <footer className="bg-[#ECF8F8]">
         <div className="flex flex-row justify-between items-center px-20">
           <div>
             <img
               className="h-15 rounded-b-full"
-              src="Media\Images\logo.png"
-              alt=""
+              src="/media/logo.png"
+              alt="logo"
             />
             <h1 className="text-2xl font-bold  py-2">Stockify</h1>
             <i className=" text-3xl m-1.5 ri-facebook-circle-fill"></i>
@@ -72,7 +72,7 @@ const Footer = () => {
         </div>
         <div className="px-10 text-start">
           <h1 className=" text-xl font-bold my-5">About Stockify</h1>
-          <p className="font-medium">
+          <article className="font-medium">
             Stockify, a product of Stockify Tech Private Limited (formerly
             Finzoom Investment Advisors Private Limited), provides financial
             technology solutions including personal finance management tools,
@@ -99,11 +99,11 @@ const Footer = () => {
             📧 upisupport@stockify.com <br />
             📧 insurancesupport@stockify.com <br />
             📧 npssupport@stockify.com <br />
-          </p>
+          </article>
         </div>
         <div className="px-10 text-start">
           <h1 className=" text-lg font-semibold my-5">Disclaimer</h1>
-          <p className="font-medium">
+          <article className="font-medium">
             Stockify Pvt. Ltd. is a member of NSE & BSE with SEBI Registration
             No: INZ000301838, a Depository Participant of CDSL (SEBI
             Registration No: IN-DP-417-2019), and a registered Mutual Fund
@@ -119,9 +119,9 @@ const Footer = () => {
             read all scheme-related documents carefully before investing. <br />
             Past performance of schemes is neither indicative of nor a guarantee
             for future performance. <br />
-          </p>
+          </article>
         </div>
-      </div>
+      </footer>
     </>
   );
 };

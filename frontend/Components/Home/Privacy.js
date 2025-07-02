@@ -1,4 +1,7 @@
 import React from "react";
+import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined";
+import AutoStoriesOutlinedIcon from "@mui/icons-material/AutoStoriesOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
 
 const Privacy = () => {
   return (
@@ -16,28 +19,26 @@ const Privacy = () => {
           </div>
           <div className="flex flex-row w-full border-1 rounded-full justify-between  items-center  px-8 gap-4">
             <div className="flex flex-row py-5 pl-5 text-xl">
-              <i className="ri-article-line text-xl">
-                <span className="p-1">ISO Certified</span>
-              </i>
+              <WorkspacePremiumOutlinedIcon fontSize="large" />
+              <span className="p-1">ISO Certified</span>
             </div>
             <div className="flex flex-row py-5 text-xl">
-              <i className="ri-book-marked-line">
+              <AutoStoriesOutlinedIcon fontSize="large"/>
                 <span className="p-1">
                   Audited by cert-in empanelled auditors
                 </span>
-              </i>
+              
             </div>
             <div className="flex flex-row py-5 text-xl">
-              <i className="ri-secure-payment-line">
-                <span className="p-1">SSL Secured</span>
-              </i>
+              <SecurityOutlinedIcon fontSize="large" />
+              <span className="p-1">SSL Secured</span>
             </div>
           </div>
         </div>
         <div>
           <img
             className="h-100 px-25  my-20 mx-25"
-            src="Media\Images\privacylogo.png"
+            src="/media/privacylogo.png"
             alt="image"
           />
         </div>

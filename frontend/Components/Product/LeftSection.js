@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 const LeftSection = ({
@@ -12,7 +13,7 @@ const LeftSection = ({
     <>
       <div className="flex flex-row px-20 my-5">
         <div>
-          <img className="h-110 w-300 rounded-xl " src={imgUrl} alt="image" />
+          <img className="h-110 w-300 rounded-xl " src={imgUrl} alt="image" onContextMenu={e => e.preventDefault()}/>
         </div>
         <div className="flex flex-col ml-10 my-15 px-20 ">
           <h1 className="text-5xl font-semibold font-serif mb-5">
@@ -25,7 +26,7 @@ const LeftSection = ({
           </div>
           <div className="flex flex-row my-2">
             <a href={glgplay}>
-              <img className="h-10" src="Media\Images\gplay.webp" alt="" />
+              <img className="h-10" src="/media/gplay.webp" alt=""  />
             </a>
           </div>
         </div>

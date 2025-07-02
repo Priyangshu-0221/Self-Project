@@ -1,9 +1,17 @@
 import React from "react";
-
+import Link from "next/link";
+import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 const Education = () => {
   return (
     <>
-      <div>
+      <div className="w-full b">
         <div className="my-5 py-4">
           <h1 className="text-center text-5xl font-bold">
             Take 4 steps to start earning as a real trader
@@ -18,8 +26,9 @@ const Education = () => {
               <div>
                 <img
                   className="h-80 rounded-4xl"
-                  src="Media\Images\1.png"
-                  alt=""
+                  src="/media/1.png"
+                  alt="image"
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             </div>
@@ -32,8 +41,9 @@ const Education = () => {
               <div>
                 <img
                   className="h-80 rounded-4xl"
-                  src="Media\Images\2.png"
-                  alt=""
+                  src="/media/2.png"
+                  alt="image"
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             </div>
@@ -46,8 +56,9 @@ const Education = () => {
               <div>
                 <img
                   className="h-80 rounded-4xl"
-                  src="Media\Images\3.png"
-                  alt=""
+                  src="/media/3.png"
+                  alt="image"
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             </div>
@@ -60,17 +71,32 @@ const Education = () => {
               <div>
                 <img
                   className="h-80 rounded-4xl"
-                  src="Media\Images\4.png"
-                  alt=""
+                  src="/media/4.png"
+                  alt="image"
+                  onContextMenu={(e) => e.preventDefault()}
                 />
               </div>
             </div>
           </div>
         </div>
         <div className="text-center my-4">
-          <button className="my-2 text-2xl h-15 w-50 text-white hover:cursor-pointer font-semibold hover:scale-105 active:scale-110 bg-blue-500 rounded-full">
-            Join Us <i className="ri-arrow-right-fill"></i>
-          </button>
+          <SignedOut>
+            <SignUpButton>
+              <a>
+                <button className="my-2 text-2xl h-15 w-50 text-white hover:cursor-pointer font-semibold hover:scale-105 active:scale-110 bg-blue-500 rounded-full">
+                  Join Us <HandshakeOutlinedIcon fontSize="large"/>
+                </button>
+              </a>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <Link href="/dashboard">
+              <button className="w-90 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
+                Invest, Grow, Prosper
+                <i className="ri-arrow-right-circle-fill"></i>
+              </button>
+            </Link>
+          </SignedIn>
         </div>
       </div>
     </>

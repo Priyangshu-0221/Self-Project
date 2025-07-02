@@ -1,5 +1,12 @@
 import React from "react";
-
+import Link from "next/link";
+import {
+  SignInButton,
+  SignUpButton,
+  SignedIn,
+  SignedOut,
+  UserButton,
+} from "@clerk/nextjs";
 const Hero = () => {
   return (
     <>
@@ -11,15 +18,33 @@ const Hero = () => {
           <h2 className="text-center font-bold text-7xl mb-10">
             Invest in Indian Share Market
           </h2>
-          <button className="w-60 h-15 bg-blue-500 rounded-full   active:bg-blue-900 hover:scale-110 hover:cursor-pointer text-2xl font-semibold text-white ">
-            Get Started Now <i className="ri-funds-fill"></i>
-          </button>
+          <SignedOut>
+            <SignUpButton>
+              <Link href="">
+                <button className="w-60 h-15 bg-blue-500 rounded-full   active:bg-blue-900 hover:scale-110 hover:cursor-pointer text-2xl font-semibold text-white ">
+                  Get Started Now <i className="ri-funds-fill"></i>
+                </button>{" "}
+              </Link>
+            </SignUpButton>
+          </SignedOut>
+          <SignedIn>
+            <Link href="/dashboard">
+            <button className="w-100 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
+              Secure Your Future, Start Today   
+              <i className="ri-arrow-right-circle-fill"></i>
+            </button>
+            </Link>
+          </SignedIn>
         </div>
-        <div className="items-center px-20 mx-5 my-2">
-          <img
-            className="w-full px-8 mx-8 h-160"
-            src="Media\Images\hero.png"
-            alt="image"
+        <div className="items-center my-2 py-2 ">
+          <video
+            autoPlay={true}
+            loop={true}
+            muted={true}
+            className="w-full h-200 "
+            src="/media/hero 1.mp4"
+            alt="Video"
+            onContextMenu={(e) => e.preventDefault()} // Prevent right-click context menu
           />
         </div>
       </div>
