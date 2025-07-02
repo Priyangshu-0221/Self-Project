@@ -15,7 +15,7 @@ Stockify is a feature-rich stock market app designed to give users an intuitive 
 ---
 
 ## 🗂️ Folder Structure
-
+```
 frontend/
 ├── .gitignore
 ├── README.md
@@ -54,7 +54,7 @@ frontend/
 ├── tailwind.config.js
 ├── package.json
 └── ...
-
+```
 ---
 
 ## ✨ Features
