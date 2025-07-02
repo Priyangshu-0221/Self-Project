@@ -1,4 +1,4 @@
-import SuportHero from '@/Components/Support/SuportHero'
+import SuportHero from '@/Components/Support/SupportHero'
 import React from 'react'
 
 const page = () => {
