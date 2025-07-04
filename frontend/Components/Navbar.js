@@ -14,7 +14,7 @@ const Navbar = () => {
   return (
     <>
       <header>
-        <nav className="h-20 flex flex-row justify-evenly">
+        <nav className="h-20 flex flex-row justify-evenly ">
           <Link href="/" prefetch={true}>
             <div className="flex flex-row items-center gap-2 px-15 mx-2">
               <figure>

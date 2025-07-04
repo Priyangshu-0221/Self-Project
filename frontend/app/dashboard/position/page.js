@@ -1,7 +1,19 @@
-import React from "react";
-import { positions } from "../data/data";
+"use client"
+import React, { useEffect, useState } from "react";
+// import { positions } from "../data/data";
 import WatchlistComponent from "../watchlist/WatchlistComponent";
+import axios from "axios";
 const page = () => {
+  const [positions, setpositions] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:8080/allpositions").then((res) => {
+      setpositions(res.data);
+    });
+    return () => {
+      console.log("Position Data came from backend");
+    };
+  }, []);
+
   return (
     <>
       <div className="flex flex-row w-full justify-evenly ">
@@ -9,7 +21,9 @@ const page = () => {
           <WatchlistComponent />
         </div>
         <main className="h-190 w-full border-4 px-2 rounded-2xl border-gray-300 my-2 ">
-          <h3 className="text-3xl py-5 text-center font-semibold">Positions ({positions.length})</h3>
+          <h3 className="text-3xl py-5 text-center font-semibold">
+            Positions ({positions.length})
+          </h3>
           <div className="order-table flex justify-center">
             <table className="text-center w-full">
               <thead className="bg-black text-amber-50">
@@ -52,7 +66,9 @@ const page = () => {
                       </td>
                       <td
                         className={`px-4 py-2 font-medium text-right ${
-                          parseFloat  (stock.day) >=0 ? "text-green-600" : "text-red-600"
+                          parseFloat(stock.day) >= 0
+                            ? "text-green-600"
+                            : "text-red-600"
                         }`}
                       >
                         {stock.day}

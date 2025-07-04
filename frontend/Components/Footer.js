@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => {
   return (
     <>
-      <footer className="bg-[#ECF8F8]">
+      <footer className="bg-linear-to-t from-green-600 via-white to-orange-400">
         <div className="flex flex-row justify-between items-center px-20">
           <div>
             <img

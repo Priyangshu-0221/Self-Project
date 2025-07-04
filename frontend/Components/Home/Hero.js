@@ -12,7 +12,7 @@ const Hero = () => {
     <>
       <div className="bg-white text-black ">
         <div className="mx-10 mt-2 px-5 py-12 flex flex-col items-center">
-          <h1 className="text-center font-semibold text-4xl mb-5">
+          <h1 className="text-center h-12 font-semibold text-4xl mb-5 ">
             Your Money works Day & Night
           </h1>
           <h2 className="text-center font-bold text-7xl mb-10">

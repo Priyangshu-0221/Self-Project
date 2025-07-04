@@ -1,6 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google";
-import DashNav from './DashNav'
-
+import DashNav from "./DashNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +19,7 @@ export const metadata = {
 export default function Dasboardlayout({ children }) {
   return (
     <>
-      <DashNav/>
+      <DashNav />
       {children}
     </>
   );

@@ -15,7 +15,7 @@ const page = () => {
           placeholder="Search eg. infy, bse, nifty fut weekly, gold mcx"
           spellCheck={false}
         />
-        <label className="text-lg font-medium">
+        <label className="text-md font-medium">
           {" "}
           Watchlist {watchlist.length}/50
         </label>
@@ -43,8 +43,8 @@ const WatchListItem = ({ stock }) => {
   return (
     <li
       onMouseEnter={handleMouse}
-      className="hover:cursor-pointer  hover:border-1 hover:rounded-lg hover:bg-gray-50 hover:font-semibold"
       onMouseLeave={handleLeave}
+      className="hover:cursor-pointer  hover:border-1 hover:rounded-lg hover:bg-gray-50 hover:font-semibold"
     >
       <div className=" flex items-center justify-between relative my-3 py-2 px-2">
         <p className={stock.isDown ? "text-red-500" : "text-green-600"}>
@@ -80,7 +80,7 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="bg-red-500 h-10 text-white rounded-full w-full">Sell</button>
+          <button className="bg-red-500 h-8   text-white rounded-full w-full">Sell</button>
         </Tooltip>
         <Tooltip
           title="Buy [B]"
@@ -88,7 +88,7 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="bg-green-500 h-10 text-white rounded-full w-full">Buy</button>
+          <button className="bg-green-500 h-8  text-white rounded-full w-full">Buy</button>
         </Tooltip>
         <Tooltip
           title="Chart [C]"
@@ -96,7 +96,7 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="text-black border-1 rounded-full h-10 w-full"><i className="ri-line-chart-line text-xl"></i></button>
+          <button className="text-black border-1 rounded-full h-8 w-full"><i className="ri-line-chart-line text-xl"></i></button>
         </Tooltip>
         <Tooltip
           title="More [M]"
@@ -104,7 +104,7 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="text-black h-10 w-full" ><i className="ri-more-2-fill text-xl"></i></button>
+          <button className="text-black h-8 w-full" ><i className="ri-more-2-fill text-xl"></i></button>
         </Tooltip>
       </span>
     </span>

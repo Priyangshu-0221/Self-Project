@@ -1,8 +1,34 @@
-import React from "react";
-import { holdings } from "../data/data";
+"use client";
+import React, { useEffect, useState } from "react";
+// import { holdings } from "../data/data";
 import WatchlistComponent from "../watchlist/WatchlistComponent";
+import axios from "axios";
 
 const page = () => {
+  const [holdings, setholdings] = useState([]);
+  useEffect(() => {
+    const eventSource = new EventSource(
+      "http://localhost:8080/allholdings-stream"
+    );
+    eventSource.onmessage = (event) => {
+      const parsedData = JSON.parse(event.data);
+      setholdings(parsedData); // Live update
+      eventSource.onerror = (err) => {
+        console.error("SSE error:", err);
+        eventSource.close();
+      };
+    };
+
+    return () => {
+      console.log("Holdings Data Fetched from Backend");
+      eventSource.close();
+    };
+  }, []);
+  const totalCurrentValue = holdings.reduce(
+    (sum, stock) => sum + stock.price * stock.qty,
+    0
+  );
+  
   return (
     <>
       <div className="flex flex-row w-full justify-evenly ">
@@ -64,7 +90,9 @@ const page = () => {
                       </td>
                       <td
                         className={`px-4 py-2 font-medium text-right ${
-                          stock.net >= 0 ? "text-green-600" : "text-red-600"
+                          parseFloat(stock.net) >= 0
+                            ? "text-green-600"
+                            : "text-red-600"
                         }`}
                       >
                         {stock.net}
@@ -91,7 +119,10 @@ const page = () => {
               </div>
               <div className="col">
                 <h5>
-                  31,428.<span>95</span>{" "}
+                  {totalCurrentValue.toLocaleString(undefined, {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}
                 </h5>
                 <p>Current value</p>
               </div>
