@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import WatchlistComponent from "../watchlist/WatchlistComponent";
 import axios from "axios";
 
-const page = () => {
+const Page = () => {
   const [holdings, setholdings] = useState([]);
   useEffect(() => {
     const eventSource = new EventSource(
@@ -28,7 +28,7 @@ const page = () => {
     (sum, stock) => sum + stock.price * stock.qty,
     0
   );
-  
+
   return (
     <>
       <div className="flex flex-row w-full justify-evenly ">
@@ -138,4 +138,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
