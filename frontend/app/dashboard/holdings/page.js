@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 // import { holdings } from "../data/data";
 import WatchlistComponent from "../watchlist/WatchlistComponent";
 import axios from "axios";
+import { GeneralContextProvider } from "../GeneralContext";
 
 const Page = () => {
   const [holdings, setholdings] = useState([]);
@@ -31,6 +32,7 @@ const Page = () => {
 
   return (
     <>
+    <GeneralContextProvider>
       <div className="flex flex-row w-full justify-evenly ">
         <div className="w-full px-7.5">
           <WatchlistComponent />
@@ -134,6 +136,7 @@ const Page = () => {
           </div>
         </main>
       </div>
+      </GeneralContextProvider>
     </>
   );
 };

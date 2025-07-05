@@ -12,11 +12,11 @@ import {
 const IndianStocks = () => {
   return (
     <>
-      <div className="flex flex-row px-15 mx-5 my-4">
+      <div className="flex flex-row mx-5 my-4">
         <div>
           <img
-            className="h-150"
-            src="/media/phone.png"
+            className="h-150 w-700"
+            src="/media/laptop.png"
             alt="image"
             onContextMenu={(e) => e.preventDefault()}
           />

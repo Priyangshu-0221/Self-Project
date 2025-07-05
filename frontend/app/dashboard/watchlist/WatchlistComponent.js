@@ -1,24 +1,16 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import { Tooltip, Grow } from "@mui/material";
-import { watchlist } from "../data/data";
+import { holdings, watchlist } from "../data/data";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
+import GeneralContext from "../GeneralContext";
 
 const page = () => {
   return (
-    <div className="border-4 w-full px-3 my-2 h-180 rounded-2xl border-gray-300">
-      <div>
-        <input
-          className="w-130 mr-2 bg-gray-300 text-center text-black font-medium my-3 py-3 rounded-full"
-          type="text"
-          name="search"
-          placeholder="Search eg. infy, bse, nifty fut weekly, gold mcx"
-          spellCheck={false}
-        />
-        <label className="text-md font-medium">
-          {" "}
-          Watchlist {watchlist.length}/50
-        </label>
+    <div className="border-4  w-full px-3 my-2 h-180 rounded-2xl border-gray-300">
+      <div className="text-center  h-11 rounded-full">
+<h1 className="text-3xl mb-2">Watchlist {watchlist.length}/50</h1>
+<hr />
       </div>
       <ul>
         {watchlist.map((stock, index) => {
@@ -71,8 +63,10 @@ const WatchListItem = ({ stock }) => {
 };
 
 const WatchListActions = ({ uid }) => {
+  const { openBuyWindow } = useContext(GeneralContext);
+   const { closeBuyWindow } = useContext(GeneralContext);
   return (
-    <span >
+    <span>
       <span className="flex flex-row items-center gap-1 px-2 py-1">
         <Tooltip
           title="Sell [S]"
@@ -80,7 +74,9 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="bg-red-500 h-8   text-white rounded-full w-full">Sell</button>
+          <button className="bg-red-500 h-8   text-white rounded-full w-full" onClick={()=>closeBuyWindow(uid)}>
+            Sell
+          </button>
         </Tooltip>
         <Tooltip
           title="Buy [B]"
@@ -88,7 +84,10 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="bg-green-500 h-8  text-white rounded-full w-full">Buy</button>
+          <button className="bg-green-500 h-8  text-white rounded-full w-full" onClick={() => openBuyWindow(uid)}
+>
+            Buy
+          </button>
         </Tooltip>
         <Tooltip
           title="Chart [C]"
@@ -96,7 +95,9 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="text-black border-1 rounded-full h-8 w-full"><i className="ri-line-chart-line text-xl"></i></button>
+          <button className="text-black border-1 rounded-full h-8 w-full">
+            <i className="ri-line-chart-line text-xl"></i>
+          </button>
         </Tooltip>
         <Tooltip
           title="More [M]"
@@ -104,7 +105,9 @@ const WatchListActions = ({ uid }) => {
           arrow
           slots={{ transition: Grow }}
         >
-          <button className="text-black h-8 w-full" ><i className="ri-more-2-fill text-xl"></i></button>
+          <button className="text-black h-8 w-full">
+            <i className="ri-more-2-fill text-xl"></i>
+          </button>
         </Tooltip>
       </span>
     </span>

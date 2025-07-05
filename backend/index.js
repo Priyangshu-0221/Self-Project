@@ -9,140 +9,33 @@ const database_url = process.env.MONGO_URL;
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:3000", // your frontend URL
+    origin: "http://localhost:3000", //client side URL(basically frontend url)
     methods: "GET",
     credentials: true,
   })
 );
 app.use(bodyParser.json());
 const HoldingModel = require("./model/HoldingModel");
-const PositionModel = require("./model/PositionModel");
+const StockModel = require("./model/StockModel");
+const dummydata = require("./data/StocksData");
+const allholdings = require("./data/HoldingsData");
+// const PositionModel = require("./model/PositionModel");
 
-// app.get("/addHoldings", async (req, res) => {
-//   let holdingsDummy = [
-//     {
-//       name: "BHARTIARTL",
-//       qty: 2,
-//       avg: 538.05,
-//       price: 541.15,
-//       net: "+0.58%",
-//       day: "+2.99%",
-//     },
-//     {
-//       name: "HDFCBANK",
-//       qty: 2,
-//       avg: 1383.4,
-//       price: 1522.35,
-//       net: "+10.04%",
-//       day: "+0.11%",
-//     },
-//     {
-//       name: "HINDUNILVR",
-//       qty: 1,
-//       avg: 2335.85,
-//       price: 2417.4,
-//       net: "+3.49%",
-//       day: "+0.21%",
-//     },
-//     {
-//       name: "INFY",
-//       qty: 1,
-//       avg: 1350.5,
-//       price: 1555.45,
-//       net: "+15.18%",
-//       day: "-1.60%",
-//       isLoss: true,
-//     },
-//     {
-//       name: "ITC",
-//       qty: 5,
-//       avg: 202.0,
-//       price: 207.9,
-//       net: "+2.92%",
-//       day: "+0.80%",
-//     },
-//     {
-//       name: "KPITTECH",
-//       qty: 5,
-//       avg: 250.3,
-//       price: 266.45,
-//       net: "+6.45%",
-//       day: "+3.54%",
-//     },
-//     {
-//       name: "M&M",
-//       qty: 2,
-//       avg: 809.9,
-//       price: 779.8,
-//       net: "-3.72%",
-//       day: "-0.01%",
-//       isLoss: true,
-//     },
-//     {
-//       name: "RELIANCE",
-//       qty: 1,
-//       avg: 2193.7,
-//       price: 2112.4,
-//       net: "-3.71%",
-//       day: "+1.44%",
-//     },
-//     {
-//       name: "SBIN",
-//       qty: 4,
-//       avg: 324.35,
-//       price: 430.2,
-//       net: "+32.63%",
-//       day: "-0.34%",
-//       isLoss: true,
-//     },
-//     {
-//       name: "SGBMAY29",
-//       qty: 2,
-//       avg: 4727.0,
-//       price: 4719.0,
-//       net: "-0.17%",
-//       day: "+0.15%",
-//     },
-//     {
-//       name: "TATAPOWER",
-//       qty: 5,
-//       avg: 104.2,
-//       price: 124.15,
-//       net: "+19.15%",
-//       day: "-0.24%",
-//       isLoss: true,
-//     },
-//     {
-//       name: "TCS",
-//       qty: 1,
-//       avg: 3041.7,
-//       price: 3194.8,
-//       net: "+5.03%",
-//       day: "-0.25%",
-//       isLoss: true,
-//     },
-//     {
-//       name: "WIPRO",
-//       qty: 4,
-//       avg: 489.3,
-//       price: 577.75,
-//       net: "+18.08%",
-//       day: "+0.32%",
-//     },
-//   ];
-//   holdingsDummy.forEach((holdingItem) => {
-//     let newHolding = new HoldingModel({
-//       name: holdingItem.name,
-//       qty: holdingItem.qty,
-//       avg: holdingItem.avg,
-//       price: holdingItem.price,
-//       net: holdingItem.net,
-//       day: holdingItem.day,
-//     });
-//     newHolding.save();
-//   });
-//   res.send("Data Inserted");
-// });
+app.get("/addHoldings", async (req, res) => {
+  let holdingsDummy = allholdings;
+  holdingsDummy.forEach((holdingItem) => {
+    let newHolding = new HoldingModel({
+      name: holdingItem.name,
+      qty: holdingItem.qty,
+      avg: holdingItem.avg,
+      price: holdingItem.price,
+      net: holdingItem.net,
+      day: holdingItem.day,
+    });
+    newHolding.save();
+  });
+  res.send("Data Inserted");
+});
 
 // app.get("/addPositions", async (req, res) => {
 //   let tempPositions = [
@@ -214,6 +107,29 @@ const PositionModel = require("./model/PositionModel");
 //   res.send("Done!");
 // });
 
+app.get("/addstocks", async (req, res) => {
+  //to insert stocks data into the dataset
+  let dummyStocks = dummydata;
+  dummyStocks.forEach((stock) => {
+    let newStock = new StockModel({
+      company: stock.company,
+      open: stock.open,
+      high: stock.high,
+      low: stock.low,
+      prev_close: stock.prevclose,
+      price_change: stock.price_change,
+      volume: stock.volume,
+    });
+    newStock.save();
+  });
+  res.send("Stocks Data inserted in the database");
+});
+
+app.get("/allstocks", async (req, res) => {
+  let allstocks = await StockModel.find({});
+  res.json(allstocks);
+});
+
 app.get("/allholdings-stream", (req, res) => {
   try {
     res.setHeader("Content-Type", "text/event-stream");
@@ -249,10 +165,11 @@ app.get("/allholdings-stream", (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
-app.get("/allpositions", async (req, res) => {
-  let allposition = await PositionModel.find();
-  res.json(allposition);
-});
+
+// app.get("/allpositions", async (req, res) => {
+//   let allposition = await PositionModel.find();
+//   res.json(allposition);
+// });
 
 app.listen(PORT, async () => {
   console.log("SERVER STARTED");

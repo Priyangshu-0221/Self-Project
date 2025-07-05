@@ -1,12 +1,15 @@
 import React from "react";
 import WatchlistComponent from "../watchlist/WatchlistComponent";
+import { GeneralContextProvider } from "../GeneralContext";
 
 const page = () => {
   return (
     <>
       <div className="flex flex-row w-full justify-evenly ">
         <aside className="w-full px-7.5">
+          <GeneralContextProvider>
           <WatchlistComponent />
+          </GeneralContextProvider>
         </aside>
         <main className="h-190 w-full border-4 px-2 rounded-2xl border-gray-300 my-2 ">
           <h1 className="text-center my-5 font-serif text-3xl ">

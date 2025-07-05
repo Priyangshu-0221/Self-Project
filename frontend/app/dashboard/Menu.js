@@ -21,40 +21,68 @@ const Menu = () => {
             menu === 0 ? "border-b-2 border-white" : "border-0"
           }`}
         >
-          Dashboard
+          All stocks
         </p>
       </Link>
-      <Link prefetch={true} onClick={() => {
+      <Link
+        prefetch={true}
+        onClick={() => {
           setMenu(1);
-        }} href="/dashboard/order">
+        }}
+        href="/dashboard/position"
+      >
         <p
           className={`text-md font-medium ${
             menu === 1 ? "border-b-2" : "border-0"
           }`}
         >
+          Watchlist
+        </p>
+      </Link>
+      <Link
+        prefetch={true}
+        onClick={() => {
+          setMenu(2);
+        }}
+        href="/dashboard/holdings"
+      >
+        <p
+          className={`text-md font-medium ${
+            menu === 2 ? "border-b-2" : "border-0"
+          }`}
+        >
+          Holdings
+        </p>
+      </Link>
+      <Link
+        prefetch={true}
+        onClick={() => {
+          setMenu(3);
+        }}
+        href="/dashboard/order"
+      >
+        <p
+          className={`text-md font-medium ${
+            menu === 3 ? "border-b-2" : "border-0"
+          }`}
+        >
           Orders
         </p>
       </Link>
-      <Link prefetch={true} onClick={() => {
-          setMenu(2);
-        }} href="/dashboard/holdings">
-        <p className={`text-md font-medium ${
-            menu === 2 ? "border-b-2" : "border-0"
-          }`}>Holdings</p>
-      </Link>
-      <Link prefetch={true} onClick={() => {
-          setMenu(3);
-        }}  href="/dashboard/position">
-        <p className={`text-md font-medium ${
-            menu === 3 ? "border-b-2" : "border-0"
-          }`}>Position</p>
-      </Link>
-      <Link onClick={()=>{
-        setMenu(4);
-      }} prefetch={true} href="/dashboard/funds">
-        <p className={`text-md font-medium ${
+      <Link
+        onClick={() => {
+          setMenu(4);
+        }}
+        prefetch={true}
+        href="/dashboard/funds"
+      >
+        <p
+          className={`text-md font-medium ${
             menu === 4 ? "border-b-2" : "border-0"
-          }`}>Funds</p>
+          }`}
+        >
+          Funds
+        </p>
       </Link>
     </div>
   );
