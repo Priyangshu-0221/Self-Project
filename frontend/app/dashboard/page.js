@@ -67,7 +67,7 @@ const Page = () => {
                 .map((stock, index) => {
                   return (
                     <tr key={index}>
-                      <td className="px-5 text-start py-1 text-center  font-medium">
+                      <td className="px-5 text-start py-1 font-medium">
                         {stock.company}
                       </td>
                       <td className="px-5 py-1 text-center font-medium ">
