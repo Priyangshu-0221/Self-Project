@@ -7,19 +7,22 @@ const PORT = process.env.PORT || 8080;
 const database_url = process.env.MONGO_URL;
 
 const app = express();
+app.use(express.json());
 app.use(
   cors({
     origin: "http://localhost:3000", //client side URL(basically frontend url)
-    methods: "GET",
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
     credentials: true,
   })
 );
 app.use(bodyParser.json());
 const HoldingModel = require("./model/HoldingModel");
 const StockModel = require("./model/StockModel");
+const OrderModel = require("./model/OrderModel");
+const WatchListModel = require("./model/WatchListModel");
+
 const dummydata = require("./data/StocksData");
 const allholdings = require("./data/HoldingsData");
-// const PositionModel = require("./model/PositionModel");
 
 app.get("/addHoldings", async (req, res) => {
   let holdingsDummy = allholdings;
@@ -126,8 +129,12 @@ app.get("/addstocks", async (req, res) => {
 });
 
 app.get("/allstocks", async (req, res) => {
-  let allstocks = await StockModel.find({});
-  res.json(allstocks);
+  try {
+    let allstocks = await StockModel.find({});
+    res.json(allstocks);
+  } catch (error) {
+    res.status(404).send("The resource doesn't exists..!!");
+  }
 });
 
 app.get("/allholdings-stream", (req, res) => {
@@ -166,10 +173,86 @@ app.get("/allholdings-stream", (req, res) => {
   }
 });
 
-// app.get("/allpositions", async (req, res) => {
-//   let allposition = await PositionModel.find();
-//   res.json(allposition);
-// });
+app.post("/addorder", async (req, res) => {
+  try {
+    let newOrder = new OrderModel({
+      name: req.body.name,
+      qty: req.body.qty,
+      price: req.body.price,
+      mode: req.body.mode,
+    });
+    await newOrder.save();
+    res.send("New Order placed");
+  } catch (error) {
+    res.status(404).send("The resource doesn't exists..!!");
+  }
+});
+
+app.post("/addwatchlist", async (req, res) => {
+  try {
+    const { id } = req.body;
+    const stock = await StockModel.findById(id);
+    if (!stock) {
+      return res.status(404).json({ message: "Stock not found" });
+    }
+
+    const watchlistEntry = new WatchListModel({
+      company: stock.company,
+      open: stock.open,
+      high: stock.high,
+      low: stock.low,
+      prev_close: stock.prev_close,
+      price_change: stock.price_change,
+      volume: stock.volume,
+    });
+
+    await watchlistEntry.save();
+    res.json({ message: "Added to watchlist" });
+  } catch (err) {
+    console.error("Error:", err);
+    res.status(500).json({ message: "Failed to add to watchlist" });
+  }
+});
+
+app.get("/allorders", async (req, res) => {
+  try {
+    let allorders = await OrderModel.find({});
+    res.json(allorders);
+  } catch (error) {
+    res.status(404).send("The resource doesn't exist..!!");
+  }
+});
+
+app.get("/allwatchlist", async (req, res) => {
+  try {
+    let allwatchlist = await WatchListModel.find({});
+    res.json(allwatchlist);
+  } catch (error) {
+    res.status(404).send("The resource doesn't exist..!!");
+  }
+});
+
+app.delete("/sellitem", async (req, res) => {
+  try {
+    let { id } = req.body;
+    let deleteditem = await OrderModel.findByIdAndDelete(id);
+    console.log("Stock Sold");
+    res.send(deleteditem);
+  } catch (error) {
+    res.status(404).send("The resource doesn't exist..!!");
+  }
+});
+
+app.delete("/removewatchlist", async (req, res) => {
+  try {
+    let { uid } = req.body;
+    let deleteditem = await WatchListModel.findByIdAndDelete(uid);
+    console.log("Item removed from watchlist!!");
+    res.send(deleteditem);
+  } catch (error) {
+    res.status(404).send("The resource doesn't exist..!!");
+  }
+});
 
 app.listen(PORT, async () => {
   console.log("SERVER STARTED");
@@ -177,6 +260,6 @@ app.listen(PORT, async () => {
     await mongoose.connect(database_url);
     console.log("DB CONNECTED SUCCESSFULLY");
   } catch (err) {
-    console.log(err);
+    console.log("Error in DB connection try again.....");
   }
 });

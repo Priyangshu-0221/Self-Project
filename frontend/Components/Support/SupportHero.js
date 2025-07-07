@@ -3,7 +3,6 @@ import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import PermIdentityOutlinedIcon from "@mui/icons-material/PermIdentityOutlined";
 import CurrencyRupeeOutlinedIcon from "@mui/icons-material/CurrencyRupeeOutlined";
-import LocationSearchingOutlinedIcon from "@mui/icons-material/LocationSearchingOutlined";
 
 const SuportHero = () => {
   return (

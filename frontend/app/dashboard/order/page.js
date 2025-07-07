@@ -1,24 +1,45 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import WatchlistComponent from "../watchlist/WatchlistComponent";
 import { GeneralContextProvider } from "../GeneralContext";
-
-const page = () => {
+import axios from "axios";
+import OrderComponent from "../components/OrderComponent";
+const Page = () => {
+  const [allorders, setallorders] = useState([]);
+  useEffect(() => {
+    axios.get("http://localhost:8080/allorders").then(() => {
+      axios.get("http://localhost:8080/allorders").then((res) => {
+        setallorders(res.data);
+      });
+    });
+    return () => {
+      console.log();
+    };
+  }, []);
   return (
     <>
       <div className="flex flex-row w-full justify-evenly ">
         <aside className="w-full px-7.5">
           <GeneralContextProvider>
-          <WatchlistComponent />
+            <WatchlistComponent />
           </GeneralContextProvider>
         </aside>
-        <main className="h-190 w-full border-4 px-2 rounded-2xl border-gray-300 my-2 ">
-          <h1 className="text-center my-5 font-serif text-3xl ">
-            You have not placed any order
-          </h1>
-        </main>
+        {allorders.length > 0 ? (
+          <OrderComponent orders={allorders} />
+        ) : (
+          <div className="border-4  flex items-center justify-center text-lg w-full px-3 my-2 h-180 rounded-2xl border-gray-300">
+            <div className="text-center  h-11 w-full rounded-full">
+              <h1 className="text-5xl mb-2 font-serif">No Orders.. 🥲🥲</h1>
+              <p className="text-sm text-gray-600 font-serif">
+                Execute your strategy: Place stock orders and take control!!!!
+              </p>
+              <hr />
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
 };
 
-export default page;
+export default Page;

@@ -4,8 +4,8 @@ import BookmarkAddIcon from "@mui/icons-material/BookmarkAdd";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
-const Page = () => {
-  const addwacthlist = () => {
+const Page = (uid) => {
+const addwacthlist = () => {
     toast.success("Added to Watchlist", {
       position: "top-right",
       autoClose: 2000,
@@ -18,7 +18,7 @@ const Page = () => {
     });
   };
   const [allstocks, setAllstocks] = useState([]);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
   useEffect(() => {
     axios.get("http://localhost:8080/allstocks").then((res) => {
       setAllstocks(res.data);
@@ -27,7 +27,19 @@ const Page = () => {
       console.log("Stock Data");
     };
   }, []);
-  // const searchedItem = allstocks.filter((stock)=> stock.name.includes(query))
+
+  const handleAddToWatchlist = (id) => {
+    axios
+      .post("http://localhost:8080/addwatchlist", { id })
+      .then((res) => {
+        toast.success("Added to Watchlist");
+      })
+      .catch((err) => {
+        console.error("Error:", err);
+        toast.error("Failed to add to Watchlist");
+      });
+  };
+
   return (
     <>
       <main className="h-150 w-full border-4 px-2 rounded-2xl border-gray-300 my-2 ">
@@ -36,8 +48,9 @@ const Page = () => {
             <span className="font-serif ">All stocks</span> ({allstocks.length})
           </h1>
           <input
-            className="h-10 w-[50%] border-2 text-center placeholder:text-center rounded-full" 
-            type="text" placeholder="Trending Now: Indian Stock Market Favourites"
+            className="h-10 w-[50%] border-2 text-center placeholder:text-center rounded-full"
+            type="text"
+            placeholder="Trending Now: Indian Stock Market Favourites"
             value={query}
             onChange={(e) => setQuery(e.target.value.toLowerCase())}
           />
@@ -61,12 +74,12 @@ const Page = () => {
                 <th className="px-5 py-1 text-center font-medium">Watchlist</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
               {allstocks
                 .filter((a) => a.company.toLowerCase().includes(query))
                 .map((stock, index) => {
                   return (
-                    <tr key={index}>
+                    <tr key={index} className="border-b-1 border-gray-600 cursor-pointer">
                       <td className="px-5 text-start py-1 font-medium">
                         {stock.company}
                       </td>
@@ -96,7 +109,7 @@ const Page = () => {
                       </td>
                       <td className="mx-[50%] py-1 text-center font-medium items-center flex justify-around">
                         <button
-                          onClick={addwacthlist} 
+                          onClick={() => handleAddToWatchlist(stock._id)}
                           className="hover:cursor-pointer"
                         >
                           <BookmarkAddIcon />

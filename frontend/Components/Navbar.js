@@ -72,7 +72,7 @@ const Navbar = () => {
               className="font-semibold hover:border-b-2 m-2 hover:scale-125 text-center p-1"
               href="/support"
             >
-              <SupportAgentIcon fontSize="large"/>
+              <i className="ri-customer-service-2-line text-3xl"></i>
             </Link>
             <SignedOut>
               <SignUpButton>

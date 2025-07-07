@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+
 const Hero = () => {
+  const boxRef1 = useRef();
+  useGSAP(() => {
+    gsap.from(boxRef1.current, {
+      opacity: 0,
+      scale: 0,
+      duration: 1,
+    });
+  });
+  const boxRef2 = useRef();
+  useGSAP(() => {
+    gsap.from(boxRef2.current, {
+      opacity: 0,
+      scale: 0,
+      duration: 1,
+    });
+  });
   return (
     <>
       <div className="bg-white text-black ">
-        <div className="mx-10 mt-2 px-5 py-12 flex flex-col items-center">
+        <div
+          ref={boxRef1}
+          className="mx-10 mt-2 px-5 py-12 flex flex-col items-center"
+        >
           <h1 className="text-center h-12 font-semibold text-4xl mb-5 ">
             Your Money works Day & Night
           </h1>
@@ -29,14 +45,14 @@ const Hero = () => {
           </SignedOut>
           <SignedIn>
             <Link href="/dashboard">
-            <button className="w-100 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
-              Secure Your Future, Start Today   
-              <i className="ri-arrow-right-circle-fill"></i>
-            </button>
+              <button className="w-100 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
+                Secure Your Future, Start Today
+                <i className="ri-arrow-right-circle-fill"></i>
+              </button>
             </Link>
           </SignedIn>
         </div>
-        <div className="items-center my-2 py-2 ">
+        <div ref={boxRef2} className="items-center my-2 py-2 ">
           <video
             autoPlay={true}
             loop={true}

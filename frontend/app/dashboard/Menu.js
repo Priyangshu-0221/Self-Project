@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 
 const Menu = () => {
@@ -7,8 +7,9 @@ const Menu = () => {
   const click = (index) => {
     setMenu(index);
   };
+
   return (
-    <div className="flex flex-row w-full justify-evenly bg-black text-white  items-center">
+    <div className="flex flex-row w-full justify-evenly bg-[#FEFAE0] text-black  items-center">
       <Link
         prefetch={true}
         onClick={() => {
@@ -18,7 +19,7 @@ const Menu = () => {
       >
         <p
           className={`text-md font-medium ${
-            menu === 0 ? "border-b-2 border-white" : "border-0"
+            menu === 0 ? "border-b-2 scale-130  border-black" : "border-0"
           }`}
         >
           All stocks
@@ -33,7 +34,7 @@ const Menu = () => {
       >
         <p
           className={`text-md font-medium ${
-            menu === 1 ? "border-b-2" : "border-0"
+            menu === 1 ? "border-b-2 scale-130 " : "border-0"
           }`}
         >
           Watchlist
@@ -48,7 +49,7 @@ const Menu = () => {
       >
         <p
           className={`text-md font-medium ${
-            menu === 2 ? "border-b-2" : "border-0"
+            menu === 2 ? "border-b-2 scale-130" : "border-0"
           }`}
         >
           Holdings
@@ -63,7 +64,7 @@ const Menu = () => {
       >
         <p
           className={`text-md font-medium ${
-            menu === 3 ? "border-b-2" : "border-0"
+            menu === 3 ? "border-b-2 scale-130" : "border-0"
           }`}
         >
           Orders
@@ -78,7 +79,7 @@ const Menu = () => {
       >
         <p
           className={`text-md font-medium ${
-            menu === 4 ? "border-b-2" : "border-0"
+            menu === 4 ? "border-b-2 scale-130" : "border-0"
           }`}
         >
           Funds

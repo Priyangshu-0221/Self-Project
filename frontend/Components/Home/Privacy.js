@@ -23,11 +23,10 @@ const Privacy = () => {
               <span className="p-1">ISO Certified</span>
             </div>
             <div className="flex flex-row py-5 text-xl">
-              <AutoStoriesOutlinedIcon fontSize="large"/>
-                <span className="p-1">
-                  Audited by cert-in empanelled auditors
-                </span>
-              
+              <AutoStoriesOutlinedIcon fontSize="large" />
+              <span className="p-1">
+                Audited by cert-in empanelled auditors
+              </span>
             </div>
             <div className="flex flex-row py-5 text-xl">
               <SecurityOutlinedIcon fontSize="large" />

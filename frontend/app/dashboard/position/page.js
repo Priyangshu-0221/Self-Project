@@ -5,8 +5,36 @@ import { watchlist } from "../data/data";
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import GeneralContext from "../GeneralContext";
 import axios from "axios";
+import { DoughnutChart } from "../components/DoghnutChart";
 
+const labels = watchlist.map((subarray) => subarray["name"]);
 const Page = () => {
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: "# of Votes",
+        data: watchlist.map((stock) => stock.price),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.6)",
+          "rgba(54, 162, 235, 0.6)",
+          "rgba(255, 206, 86, 0.6)",
+          "rgba(75, 192, 192, 0.6)",
+          "rgba(153, 102, 255, 0.6)",
+          "rgba(255, 159, 64, 0.6)",
+        ],
+        borderColor: [
+          "rgba(255, 99, 132, 1)",
+          "rgba(54, 162, 235, 1)",
+          "rgba(255, 206, 86, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(153, 102, 255, 1)",
+          "rgba(255, 159, 64, 1)",
+        ],
+        borderWidth: 2,
+      },
+    ],
+  };
   return (
     <main className="flex justify-center items-center">
       <div className="border-4 w-[50%] px-3 my-2 h-180 rounded-2xl border-gray-300">
@@ -19,6 +47,9 @@ const Page = () => {
             return <WatchListItem stock={stock} key={index} />;
           })}
         </ul>
+      </div>
+      <div className="w-[50%] my-4">
+        <DoughnutChart data={data} />
       </div>
     </main>
   );

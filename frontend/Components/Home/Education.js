@@ -1,14 +1,27 @@
-import React from "react";
+import React, { useRef } from "react";
 import Link from "next/link";
-import HandshakeOutlinedIcon from '@mui/icons-material/HandshakeOutlined';
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
+import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(useGSAP, ScrollTrigger);
 const Education = () => {
+  const boxRef1 = useRef();
+  useGSAP(() => {
+    gsap.from(boxRef1.current, {
+      opacity: 0,
+      stagger: 5,
+      scrollTrigger: {
+        trigger: boxRef1.current,
+        start: "top 100%",
+        toggleActions: "play reverse play reverse",
+      },
+      y: 500,
+      duration: 1.25,
+    });
+  });
   return (
     <>
       <div className="w-full b">
@@ -17,7 +30,10 @@ const Education = () => {
             Take 4 steps to start earning as a real trader
           </h1>
         </div>
-        <div className="flex flex-row items-center justify-between px-8 font-semibold mx-4 my-4">
+        <div
+          ref={boxRef1}
+          className="flex flex-row items-center justify-between px-8 font-semibold mx-4 my-4"
+        >
           <div>
             <div>
               <h1 className="text-2xl font-semibold my-3 ">
@@ -84,7 +100,7 @@ const Education = () => {
             <SignUpButton>
               <a>
                 <button className="my-2 text-2xl h-15 w-50 text-white hover:cursor-pointer font-semibold hover:scale-105 active:scale-110 bg-blue-500 rounded-full">
-                  Join Us <HandshakeOutlinedIcon fontSize="large"/>
+                  Join Us <HandshakeOutlinedIcon fontSize="large" />
                 </button>
               </a>
             </SignUpButton>
