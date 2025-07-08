@@ -1,4 +1,4 @@
-"use client";
+"use client"
 import React, { useContext, useState } from "react";
 import GeneralContext from "./GeneralContext";
 import axios from "axios";
@@ -6,22 +6,23 @@ const BuyActionWindow = ({ uid }) => {
   const { closeBuyWindow } = useContext(GeneralContext);
   const [quantity, setquantity] = useState(1);
   const [price, setprice] = useState(0.0);
+
   const handleBuyClick = () => {
-    axios
-      .post("http://localhost:8080/addorder", {
-        name: uid,
-        qty: quantity,
-        price: price,
-        mode: "BUY",
-      })
-      .then(() => {
-        window.location.reload();
-      });
+    axios.post("http://localhost:8080/addorder", {
+      name: uid,
+      qty: quantity,
+      price: price,
+      mode: "BUY",
+    }).then(()=>{
+      window.location.reload();
+    });
     closeBuyWindow();
   };
+
   const handleCancelClick = () => {
     closeBuyWindow();
   };
+
   return (
     <div
       className="h-70 px-5 bg-cyan-200 absolute shadow-lg bottom-0 left-[35%] top-[40%]  flex flex-col text-white"
@@ -31,11 +32,7 @@ const BuyActionWindow = ({ uid }) => {
         <div className="flex flex-col  items-center justify-between my-2 py-2">
           <fieldset className=" box-border mr-2">
             <legend>Qty</legend>
-            <input
-              onChange={(e) => {
-                setquantity(e.target.value);
-              }}
-              value={quantity}
+            <input onChange={(e)=>{setquantity(e.target.value)}} value={quantity}
               type="number"
               name="qty"
               className="bg-white text-black h-8 w-80 "
@@ -43,11 +40,7 @@ const BuyActionWindow = ({ uid }) => {
           </fieldset>
           <fieldset className="box-border mr-2">
             <legend>Price</legend>
-            <input
-              onChange={(e) => {
-                setprice(e.target.value);
-              }}
-              value={price}
+            <input onChange={(e)=>{setprice(e.target.value)}} value={price}
               type="number"
               name="price"
               step="0.05"

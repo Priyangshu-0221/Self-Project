@@ -1,7 +1,10 @@
 const { Schema } = require("mongoose");
 
 const WacthListSchema = new Schema({
-  company: String,
+  company: {
+    type : String,
+    unique : true,
+  },
   open: Number,
   high: Number,
   low: Number,

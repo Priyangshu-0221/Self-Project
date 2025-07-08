@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 
 const Menu = () => {
@@ -7,7 +7,6 @@ const Menu = () => {
   const click = (index) => {
     setMenu(index);
   };
-
   return (
     <div className="flex flex-row w-full justify-evenly bg-[#FEFAE0] text-black  items-center">
       <Link

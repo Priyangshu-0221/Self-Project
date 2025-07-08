@@ -5,7 +5,7 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 
 const Page = (uid) => {
-const addwacthlist = () => {
+  const addwacthlist = () => {
     toast.success("Added to Watchlist", {
       position: "top-right",
       autoClose: 2000,
@@ -74,12 +74,15 @@ const addwacthlist = () => {
                 <th className="px-5 py-1 text-center font-medium">Watchlist</th>
               </tr>
             </thead>
-            <tbody >
+            <tbody>
               {allstocks
                 .filter((a) => a.company.toLowerCase().includes(query))
                 .map((stock, index) => {
                   return (
-                    <tr key={index} className="border-b-1 border-gray-600 cursor-pointer">
+                    <tr
+                      key={index}
+                      className="border-b-1 border-gray-600 cursor-pointer"
+                    >
                       <td className="px-5 text-start py-1 font-medium">
                         {stock.company}
                       </td>

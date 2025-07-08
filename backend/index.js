@@ -125,7 +125,6 @@ app.post("/addwatchlist", async (req, res) => {
     if (!stock) {
       return res.status(404).json({ message: "Stock not found" });
     }
-
     const watchlistEntry = new WatchListModel({
       company: stock.company,
       open: stock.open,
@@ -139,7 +138,6 @@ app.post("/addwatchlist", async (req, res) => {
     await watchlistEntry.save();
     res.json({ message: "Added to watchlist" });
   } catch (err) {
-    console.error("Error:", err);
     res.status(500).json({ message: "Failed to add to watchlist" });
   }
 });

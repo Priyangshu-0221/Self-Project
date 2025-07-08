@@ -3,8 +3,8 @@ import React, { useState, useContext, useEffect } from "react";
 import { Tooltip, Grow } from "@mui/material";
 // import { watchlist } from "../data/data";
 import GeneralContext from "../GeneralContext";
-import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
+
 const Page = () => {
   const [watchlist, setwatchlist] = useState([]);
   useEffect(() => {
@@ -18,7 +18,7 @@ const Page = () => {
   return (
     <>
       {watchlist.length > 0 ? (
-        <div className="border-4 text-lg font-semibold w-full mx-1 my-2 h-180 rounded-2xl border-gray-300">
+        <div className="border-4 overflow-y-auto text-lg font-semibold w-full mx-1 my-2 h-180 rounded-2xl border-gray-300">
           <div className="text-center  h-11 rounded-full">
             <h1 className="text-3xl mb-2">Watchlist {watchlist.length}/50</h1>
             <hr />
@@ -60,7 +60,7 @@ const WatchListItem = ({ stock }) => {
       onMouseLeave={handleLeave}
       className="hover:cursor-pointer  hover:border-1 hover:rounded-lg hover:bg-gray-50 hover:font-semibold"
     >
-      <div className=" flex flex-row gap-5 items-center justify-between relative my-3 py-2 px-2">
+      <div className=" flex flex-row  gap-5 items-center justify-between relative my-3 py-2 px-2">
         <p className="text-black">{stock.company}</p>
         <div className="flex flex-row gap-5 bg-amber-100  items-center text-center justify-end">
           <h1 className="px-1">
@@ -92,37 +92,22 @@ const WatchListItem = ({ stock }) => {
           </span>
         </div>
       </div>
-      {show && <WatchListActions uid={stock._id} />}
+      {show && <WatchListActions uid={stock.company} />}
       {/* works only when show is true the wacthlist actions will be shown */}
     </li>
   );
 };
+
 const WatchListActions = ({ uid }) => {
-  const { openBuyWindow } = useContext(GeneralContext);
-  const removeItem = (uid) => {
-    console.log(uid);
-    axios
-      .delete("http://localhost:8080/removewatchlist", { data: { uid } })
-      .then((res) => {
-        console.log("Item removed");
-      });
-  };
-  const addwacthlist = () => {
-    toast.error("Item removed from Watchlist", {
-      position: "bottom-center",
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
+  const { openBuyWindow, closeBuyWindow } = useContext(GeneralContext);
+
+  const handleBuyClick = () => {
+    openBuyWindow(uid);
   };
 
   return (
     <span>
-      <div>
+      <span className="flex flex-row items-center gap-1 px-2 py-1">
         <Tooltip
           title="Sell [S]"
           placement="top"
@@ -130,25 +115,11 @@ const WatchListActions = ({ uid }) => {
           slots={{ transition: Grow }}
         >
           <button
-            onClick={() => {
-              removeItem(uid);
-            }}
             className="bg-red-500 h-8   text-white rounded-full w-full"
+            onClick={() => closeBuyWindow(uid)}
           >
-            Remove
+            Remove From Watchlist
           </button>
-          <ToastContainer
-            position="bottom-center"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="dark"
-          />
         </Tooltip>
         <Tooltip
           title="Buy [B]"
@@ -157,13 +128,13 @@ const WatchListActions = ({ uid }) => {
           slots={{ transition: Grow }}
         >
           <button
+            onClick={handleBuyClick}
             className="bg-green-500 h-8  text-white rounded-full w-full"
-            onClick={() => openBuyWindow(uid)}
           >
             Buy
           </button>
         </Tooltip>
-      </div>
+      </span>
     </span>
   );
 };
