@@ -64,8 +64,7 @@ const IndianStocks = () => {
             Long-term or short-term, high risk or low risk. Be the kind of
             investor you want to be.....
           </p>
-
-          <Link href="">
+          <Link href="/signup">
             <button className="w-90 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
               Open a Free Demat A/C* <OpenInNewOutlinedIcon fontSize="large" />
             </button>

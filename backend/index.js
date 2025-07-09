@@ -10,6 +10,7 @@ const bcrypt = require("bcryptjs");
 
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(
   cors({
     origin: "http://localhost:3000", //client side URL(basically frontend url)
@@ -31,7 +32,7 @@ app.post("/newuser", async (req, res) => {
   let { username, password, email } = req.body;
   const user = await UserModel.findOne({ username });
   if (user) {
-    return res.status(404).send("User already exists");
+    return res.status(404).json({ message: "User already exists" });
   }
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
@@ -49,11 +50,11 @@ app.post("/newuser", async (req, res) => {
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
-  const user = await UserModel.findOne({email});
+  const user = await UserModel.findOne({ email });
   if (!user) {
     return res.status(500).json({ message: "Invalid Credentials" });
   }
-  const ismatch = bcrypt.compare(password, user.password);
+  const ismatch = await bcrypt.compare(password, user.password);
   if (!ismatch) {
     return res.status(500).json({ message: "Invalid Credentials" });
   }
@@ -219,7 +220,6 @@ app.delete("/removewatchlist", async (req, res) => {
     res.status(404).send("The resource doesn't exist..!!");
   }
 });
-
 
 app.listen(PORT, async () => {
   console.log("SERVER STARTED");

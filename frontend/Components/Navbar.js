@@ -1,8 +1,20 @@
+"use client";
 import Link from "next/link";
-import React from "react";
-import LoginIcon from '@mui/icons-material/Login';
+import React, { useEffect, useState } from "react";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 const Navbar = () => {
+  const [loggedIn, setloggedIn] = useState(true);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    setloggedIn(token);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  };
   return (
     <>
       <header>
@@ -67,11 +79,25 @@ const Navbar = () => {
               <i className="ri-customer-service-2-line text-3xl"></i>
             </Link>
 
-            <Link href="" prefetch={true}>
-              <button className="bg-blue-500  active:bg-blue-900 text-lg text-white font-semibold w-full h-10 px-5 rounded-4xl hover:cursor-pointer hover:scale-110 text-center ">
-                <LoginIcon fontSize="large"/>Login
-              </button>
-            </Link>
+            {!loggedIn && (
+              <Link href="/signup" prefetch={true}>
+                <button className="bg-blue-500 active:bg-green-500    text-lg text-white font-semibold w-full h-10 px-5 rounded-4xl hover:cursor-pointer hover:scale-110 text-center ">
+                  <LoginIcon fontSize="large" />
+                  SignUp
+                </button>
+              </Link>
+            )}
+            {loggedIn && (
+              <Link href="">
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500  active:bg-green-500  text-lg text-white font-semibold w-full h-10 px-5 rounded-4xl hover:cursor-pointer hover:scale-110 text-center"
+                >
+                  Logout
+                  <LogoutIcon fontSize="large" />
+                </button>
+              </Link>
+            )}
           </div>
         </nav>
       </header>
