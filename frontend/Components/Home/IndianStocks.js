@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import Link from "next/link";
 import OpenInNewOutlinedIcon from "@mui/icons-material/OpenInNewOutlined";
-import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import Image from "next/image";
@@ -65,24 +64,12 @@ const IndianStocks = () => {
             Long-term or short-term, high risk or low risk. Be the kind of
             investor you want to be.....
           </p>
-          <SignedOut>
-            <SignUpButton>
-              <Link href="">
-                <button className="w-90 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
-                  Open a Free Demat A/C*{" "}
-                  <OpenInNewOutlinedIcon fontSize="large" />
-                </button>
-              </Link>
-            </SignUpButton>
-          </SignedOut>
-          <SignedIn>
-            <Link href="/dashboard">
-              <button className="w-100 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
-                Begin Your Investment Journey
-                <i className="ri-arrow-right-circle-fill"></i>
-              </button>
-            </Link>
-          </SignedIn>
+
+          <Link href="">
+            <button className="w-90 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
+              Open a Free Demat A/C* <OpenInNewOutlinedIcon fontSize="large" />
+            </button>
+          </Link>
         </div>
       </div>
     </>

@@ -1,14 +1,6 @@
 import Link from "next/link";
 import React from "react";
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import LoginOutlinedIcon from '@mui/icons-material/LoginOutlined';
-import {
-  SignInButton,
-  SignUpButton,
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/nextjs";
+import LoginIcon from '@mui/icons-material/Login';
 
 const Navbar = () => {
   return (
@@ -74,18 +66,12 @@ const Navbar = () => {
             >
               <i className="ri-customer-service-2-line text-3xl"></i>
             </Link>
-            <SignedOut>
-              <SignUpButton>
-                <Link href="" prefetch={true}>
-                  <button className="bg-blue-500  active:bg-blue-900 text-lg text-white font-semibold w-full h-10 px-5 rounded-4xl hover:cursor-pointer hover:scale-110 text-center ">
-                    <LoginOutlinedIcon fontSize="large"/> Login
-                  </button>
-                </Link>
-              </SignUpButton>
-            </SignedOut>
-            <SignedIn>
-              <UserButton />
-            </SignedIn>
+
+            <Link href="" prefetch={true}>
+              <button className="bg-blue-500  active:bg-blue-900 text-lg text-white font-semibold w-full h-10 px-5 rounded-4xl hover:cursor-pointer hover:scale-110 text-center ">
+                <LoginIcon fontSize="large"/>Login
+              </button>
+            </Link>
           </div>
         </nav>
       </header>

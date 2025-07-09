@@ -3,7 +3,7 @@ import "./globals.css";
 import "remixicon/fonts/remixicon.css";
 import Navbar from "../Components/Navbar";
 import Footer from "../Components/Footer";
-import { ClerkProvider } from "@clerk/nextjs";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,7 +23,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <ClerkProvider>
+
       <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
           <Navbar />
@@ -31,6 +31,6 @@ export default function RootLayout({ children }) {
           <Footer />
         </body>
       </html>
-    </ClerkProvider>
+
   );
 }

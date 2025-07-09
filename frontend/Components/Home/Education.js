@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import Link from "next/link";
-import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
-import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
+
 import gsap from "gsap";
+import HotelClassIcon from '@mui/icons-material/HotelClass';
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -96,23 +96,12 @@ const Education = () => {
           </div>
         </div>
         <div className="text-center my-4">
-          <SignedOut>
-            <SignUpButton>
-              <a>
-                <button className="my-2 text-2xl h-15 w-50 text-white hover:cursor-pointer font-semibold hover:scale-105 active:scale-110 bg-blue-500 rounded-full">
-                  Join Us <HandshakeOutlinedIcon fontSize="large" />
-                </button>
-              </a>
-            </SignUpButton>
-          </SignedOut>
-          <SignedIn>
-            <Link href="/dashboard">
-              <button className="w-90 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
-                Invest, Grow, Prosper
-                <i className="ri-arrow-right-circle-fill"></i>
-              </button>
-            </Link>
-          </SignedIn>
+          <Link href="/dashboard">
+            <button className="w-90 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
+              Invest, Grow, Prosper <HotelClassIcon fontSize="large"/>
+
+            </button>
+          </Link>
         </div>
       </div>
     </>

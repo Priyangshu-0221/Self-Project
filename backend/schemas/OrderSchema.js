@@ -5,6 +5,11 @@ const OrderSchema = new Schema({
   qty: Number,
   price: Number,
   mode: String,
+  owner: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
 module.exports = { OrderSchema };

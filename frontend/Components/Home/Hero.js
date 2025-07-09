@@ -1,8 +1,8 @@
 import React, { useRef } from "react";
 import Link from "next/link";
-import { SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import CurrencyRupeeIcon from "@mui/icons-material/CurrencyRupee";
 
 const Hero = () => {
   const boxRef1 = useRef();
@@ -34,23 +34,13 @@ const Hero = () => {
           <h2 className="text-center font-bold text-7xl mb-10">
             Invest in Indian Share Market
           </h2>
-          <SignedOut>
-            <SignUpButton>
-              <Link href="">
-                <button className="w-60 h-15 bg-blue-500 rounded-full   active:bg-blue-900 hover:scale-110 hover:cursor-pointer text-2xl font-semibold text-white ">
-                  Get Started Now <i className="ri-funds-fill"></i>
-                </button>{" "}
-              </Link>
-            </SignUpButton>
-          </SignedOut>
-          <SignedIn>
-            <Link href="/dashboard">
-              <button className="w-100 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
-                Secure Your Future, Start Today
-                <i className="ri-arrow-right-circle-fill"></i>
-              </button>
-            </Link>
-          </SignedIn>
+
+          <Link href="/dashboard">
+            <button className="w-100 h-15 bg-blue-500 rounded-full  active:bg-blue-900 hover:cursor-pointer text-2xl font-semibold text-white ">
+              Secure Your Future, Start Today{" "}
+              <CurrencyRupeeIcon fontSize="large" />
+            </button>
+          </Link>
         </div>
         <div ref={boxRef2} className="items-center my-2 py-2 ">
           <video

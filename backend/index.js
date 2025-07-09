@@ -5,6 +5,8 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const PORT = process.env.PORT || 8080;
 const database_url = process.env.MONGO_URL;
+const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 app.use(express.json());
@@ -20,9 +22,46 @@ const HoldingModel = require("./model/HoldingModel");
 const StockModel = require("./model/StockModel");
 const OrderModel = require("./model/OrderModel");
 const WatchListModel = require("./model/WatchListModel");
+const UserModel = require("./model/UserModel");
 
 const dummydata = require("./data/StocksData");
 const allholdings = require("./data/HoldingsData");
+
+app.post("/newuser", async (req, res) => {
+  let { username, password, email } = req.body;
+  const user = await UserModel.findOne({ username });
+  if (user) {
+    return res.status(404).send("User already exists");
+  }
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
+  let newUser = await UserModel.insertOne({
+    username: username,
+    email: email,
+    password: hashedPassword,
+  });
+  await newUser.save();
+  const token = jwt.sign({ id: newUser.insertId }, process.env.JWT_SECRET_KEY, {
+    expiresIn: "1h",
+  });
+  res.json({ token });
+});
+
+app.post("/login", async (req, res) => {
+  const { email, password } = req.body;
+  const user = await UserModel.findOne({email});
+  if (!user) {
+    return res.status(500).json({ message: "Invalid Credentials" });
+  }
+  const ismatch = bcrypt.compare(password, user.password);
+  if (!ismatch) {
+    return res.status(500).json({ message: "Invalid Credentials" });
+  }
+  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY, {
+    expiresIn: "1h",
+  });
+  res.json({ token, userId: user._id });
+});
 
 app.get("/addHoldings", async (req, res) => {
   let holdingsDummy = allholdings;
@@ -134,7 +173,6 @@ app.post("/addwatchlist", async (req, res) => {
       price_change: stock.price_change,
       volume: stock.volume,
     });
-
     await watchlistEntry.save();
     res.json({ message: "Added to watchlist" });
   } catch (err) {
@@ -181,6 +219,7 @@ app.delete("/removewatchlist", async (req, res) => {
     res.status(404).send("The resource doesn't exist..!!");
   }
 });
+
 
 app.listen(PORT, async () => {
   console.log("SERVER STARTED");
