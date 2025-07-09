@@ -37,7 +37,7 @@ const IndianStocks = () => {
   });
   return (
     <>
-      <div className="flex overflow-hidden flex-row mx-5 overflow-hidden my-4">
+      <div className="flex  flex-row mx-5 overflow-hidden my-4">
         <div ref={boxRef1}>
           <Image
             width={1500}

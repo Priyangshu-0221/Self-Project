@@ -24,6 +24,7 @@ const StockModel = require("./model/StockModel");
 const OrderModel = require("./model/OrderModel");
 const WatchListModel = require("./model/WatchListModel");
 const UserModel = require("./model/UserModel");
+const check = require("./middleware");
 
 const dummydata = require("./data/StocksData");
 const allholdings = require("./data/HoldingsData");
@@ -143,13 +144,14 @@ app.get("/allholdings-stream", (req, res) => {
   }
 });
 
-app.post("/addorder", async (req, res) => {
+app.post("/addorder", check, async (req, res) => {
   try {
     let newOrder = new OrderModel({
       name: req.body.name,
       qty: req.body.qty,
       price: req.body.price,
       mode: req.body.mode,
+      owner: req.user.id,
     });
     await newOrder.save();
     res.send("New Order placed");
@@ -158,13 +160,21 @@ app.post("/addorder", async (req, res) => {
   }
 });
 
-app.post("/addwatchlist", async (req, res) => {
+app.post("/addwatchlist", check, async (req, res) => {
   try {
     const { id } = req.body;
     const stock = await StockModel.findById(id);
     if (!stock) {
       return res.status(404).json({ message: "Stock not found" });
     }
+    const duplicate = await WatchListModel.findOne({
+      company: stock.company,
+      owner: req.user.id,
+    });
+    if (duplicate) {
+      return res.status(404).json({ message: "Already in watchlist" });
+    }
+
     const watchlistEntry = new WatchListModel({
       company: stock.company,
       open: stock.open,
@@ -173,6 +183,7 @@ app.post("/addwatchlist", async (req, res) => {
       prev_close: stock.prev_close,
       price_change: stock.price_change,
       volume: stock.volume,
+      owner: req.user.id,
     });
     await watchlistEntry.save();
     res.json({ message: "Added to watchlist" });
@@ -181,28 +192,31 @@ app.post("/addwatchlist", async (req, res) => {
   }
 });
 
-app.get("/allorders", async (req, res) => {
+app.get("/allorders", check, async (req, res) => {
   try {
-    let allorders = await OrderModel.find({});
+    const userId = req.user.id;
+    let allorders = await OrderModel.find({ owner: userId });
     res.json(allorders);
   } catch (error) {
     res.status(404).send("The resource doesn't exist..!!");
   }
 });
 
-app.get("/allwatchlist", async (req, res) => {
+app.get("/allwatchlist", check, async (req, res) => {
   try {
-    let allwatchlist = await WatchListModel.find({});
+    const userId = req.user.id;
+    const allwatchlist = await WatchListModel.find({ owner: userId });
     res.json(allwatchlist);
   } catch (error) {
-    res.status(404).send("The resource doesn't exist..!!");
+    res.status(500).send("Failed to fetch user's watchlist");
   }
 });
 
-app.delete("/sellitem", async (req, res) => {
+app.delete("/sellitem", check, async (req, res) => {
   try {
-    let { id } = req.body;
-    let deleteditem = await OrderModel.findByIdAndDelete(id);
+    let userId = req.user.id;
+    console.log(userId);
+    let deleteditem = await OrderModel.deleteOne({ owner: userId });
     console.log("Stock Sold");
     res.send(deleteditem);
   } catch (error) {
@@ -210,12 +224,16 @@ app.delete("/sellitem", async (req, res) => {
   }
 });
 
-app.delete("/removewatchlist", async (req, res) => {
+app.delete("/removewatchlist", check ,async (req, res) => {
   try {
     let { uid } = req.body;
-    let deleteditem = await WatchListModel.findByIdAndDelete(uid);
+    const userId = req.user.id;
+    let deleteditem = await WatchListModel.deleteOne({
+      company: uid,
+      owner: userId,
+    });
     console.log("Item removed from watchlist!!");
-    res.send(deleteditem);
+    res.status(200).json({message : "Item removed"})  ;
   } catch (error) {
     res.status(404).send("The resource doesn't exist..!!");
   }

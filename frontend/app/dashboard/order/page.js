@@ -7,11 +7,16 @@ import OrderComponent from "../components/OrderComponent";
 const Page = () => {
   const [allorders, setallorders] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/allorders").then(() => {
-      axios.get("http://localhost:8080/allorders").then((res) => {
+    const token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:8080/allorders", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
         setallorders(res.data);
       });
-    });
     return () => {
       console.log();
     };

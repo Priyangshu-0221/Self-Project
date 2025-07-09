@@ -29,14 +29,18 @@ const Page = (uid) => {
   }, []);
 
   const handleAddToWatchlist = (id) => {
+    const token = localStorage.getItem("token");
+    console.log(token);
     axios
-      .post("http://localhost:8080/addwatchlist", { id })
+      .post("http://localhost:8080/addwatchlist", { id },{headers:{
+        Authorization : `Owner ${token}`
+      }})
       .then((res) => {
         toast.success("Added to Watchlist");
       })
       .catch((err) => {
         console.error("Error:", err);
-        toast.error("Failed to add to Watchlist");
+        toast.error("Already added to Watchlist");
       });
   };
 
@@ -111,24 +115,28 @@ const Page = (uid) => {
                         {stock.volume}
                       </td>
                       <td className="mx-[50%] py-1 text-center font-medium items-center flex justify-around">
-                        <button
-                          onClick={() => handleAddToWatchlist(stock._id)}
-                          className="hover:cursor-pointer"
-                        >
-                          <BookmarkAddIcon />
-                        </button>
-                        <ToastContainer
-                          position="top-right"
-                          autoClose={2000}
-                          hideProgressBar={false}
-                          newestOnTop={false}
-                          closeOnClick={false}
-                          rtl={false}
-                          pauseOnFocusLoss
-                          draggable
-                          pauseOnHover
-                          theme="colored"
-                        />
+                        {localStorage.getItem("token") && (
+                          <>
+                            <button
+                              onClick={() => handleAddToWatchlist(stock._id)}
+                              className="hover:cursor-pointer"
+                            >
+                              <BookmarkAddIcon />
+                            </button>
+                            <ToastContainer
+                              position="top-right"
+                              autoClose={2000}
+                              hideProgressBar={false}
+                              newestOnTop={false}
+                              closeOnClick={false}
+                              rtl={false}
+                              pauseOnFocusLoss
+                              draggable
+                              pauseOnHover
+                              theme="colored"
+                            />
+                          </>
+                        )}
                       </td>
                     </tr>
                   );

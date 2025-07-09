@@ -3,7 +3,7 @@ const { Schema } = require("mongoose");
 const WacthListSchema = new Schema({
   company: {
     type: String,
-    unique: true,
+    required : true,
   },
   open: Number,
   high: Number,
@@ -14,7 +14,7 @@ const WacthListSchema = new Schema({
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required: true,
+    required : true,
   },
 });
 

@@ -8,11 +8,23 @@ import axios from "axios";
 const Page = () => {
   const [watchlist, setwatchlist] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/allwatchlist").then((res) => {
-      setwatchlist(res.data);
-    });
+    const token = localStorage.getItem("token");
+    console.log("Token in Page:", token); // Debug log
+    axios
+      .get("http://localhost:8080/allwatchlist", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((res) => {
+        setwatchlist(res.data);
+      })
+      .catch((err) => {
+        console.error("Watchlist fetch error:", err);
+      });
+
     return () => {
-      console.log("Wachlist Data fetched");
+      console.log("Watchlist Data fetched");
     };
   }, []);
   return (
@@ -101,6 +113,16 @@ const WatchListItem = ({ stock }) => {
 const WatchListActions = ({ uid }) => {
   const { openBuyWindow, closeBuyWindow } = useContext(GeneralContext);
 
+  const handleRemoveWatchlist= (uid)=>{
+    const token = localStorage.getItem("token");
+    axios.delete("http://localhost:8080/removewatchlist",{headers :{
+      Authorization : `Bearer ${token}`,
+    },data : {uid}}).then((res)=>{
+      alert("Item Removed from watchlist");
+    })
+    setInterval(()=>{window.location.reload()},2000);
+  }
+  
   const handleBuyClick = () => {
     openBuyWindow(uid);
   };
@@ -116,7 +138,7 @@ const WatchListActions = ({ uid }) => {
         >
           <button
             className="bg-red-500 h-8   text-white rounded-full w-full"
-            onClick={() => closeBuyWindow(uid)}
+            onClick={(e)=>handleRemoveWatchlist(uid)}
           >
             Remove From Watchlist
           </button>

@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-import { DoughnutChart } from "../components/DoghnutChart";
 import {
   Radar,
   RadarChart,
@@ -15,7 +14,12 @@ import {
 const Page = () => {
   const [watchlist, setwatchlist] = useState([]);
   useEffect(() => {
-    axios.get("http://localhost:8080/allwatchlist").then((res) => {
+    const token = localStorage.getItem("token")
+    axios.get("http://localhost:8080/allwatchlist",{
+      headers:{
+        Authorization :`Bearer ${token}`
+      }
+    }).then((res) => {
       setwatchlist(res.data);
     });
     return () => {

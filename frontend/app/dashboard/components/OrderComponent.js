@@ -15,14 +15,23 @@ const OrderComponent = ({ orders }) => {
       theme: "dark",
     });
   };
-  
+
   //sending a delete req to backend to sell individual stock with respect to their id
   const sellItem = (id) => {
+    const token = localStorage.getItem("token");
+    const userId = localStorage.getItem("user");
     axios
-      .delete("http://localhost:8080/sellitem", { data: { id } })
+      .delete("http://localhost:8080/sellitem", {
+        data: { id },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
       .then((res) => {
         toast.error("Stock Sold");
-        window.location.reload();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000); // 2000 milliseconds = 2 seconds
       });
     console.log(id);
   };

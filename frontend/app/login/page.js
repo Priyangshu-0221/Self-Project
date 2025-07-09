@@ -4,9 +4,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 const Page = () => {
-  useEffect(() => {
-    localStorage.removeItem("token");
-  }, []);
 
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
@@ -19,6 +16,7 @@ const Page = () => {
         password: password,
       });
       localStorage.setItem("token", res.data.token);
+       localStorage.setItem("userId", res.data.userId);
       window.location.href = "/";
     } catch (error) {
       alert("Invalid Credentials !!!!!!! Try with Correct Credentials");
