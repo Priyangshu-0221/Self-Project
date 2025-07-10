@@ -58,21 +58,6 @@ app.post("/login", async (req, res) => {
   res.json({ token, userId: user._id });
 });
 
-app.post("/addholdings", check, async (req, res) => {
-  try {
-    let newHolding = new HoldingModel({
-      name: req.body.name,
-      price: req.body.price,
-      qty: req.body.qty,
-      owner: req.user.id,
-    });
-    await newHolding.save();
-    res.send("New Holding");
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
-
 app.get("/addstocks", async (req, res) => {
   //to insert stocks data into the dataset
   let dummyStocks = dummydata;
@@ -95,28 +80,6 @@ app.get("/allstocks", async (req, res) => {
   try {
     let allstocks = await StockModel.find({});
     res.json(allstocks);
-  } catch (error) {
-    res.status(404).send("The resource doesn't exists..!!");
-  }
-});
-
-app.get("/allholdings", check, async (req, res) => {
-  let userId = req.user.id;
-  let allholdings = await HoldingModel.find({ owner: userId });
-  res.json(allholdings);
-});
-
-app.post("/addorder", check, async (req, res) => {
-  try {
-    let newOrder = new OrderModel({
-      name: req.body.name,
-      qty: req.body.qty,
-      price: req.body.price,
-      mode: req.body.mode,
-      owner: req.user.id,
-    });
-    await newOrder.save();
-    res.send("New Order placed");
   } catch (error) {
     res.status(404).send("The resource doesn't exists..!!");
   }
@@ -154,16 +117,6 @@ app.post("/addwatchlist", check, async (req, res) => {
   }
 });
 
-app.get("/allorders", check, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    let allorders = await OrderModel.find({ owner: userId });
-    res.json(allorders);
-  } catch (error) {
-    res.status(404).send("The resource doesn't exist..!!");
-  }
-});
-
 app.get("/allwatchlist", check, async (req, res) => {
   try {
     const userId = req.user.id;
@@ -173,24 +126,6 @@ app.get("/allwatchlist", check, async (req, res) => {
     res.status(500).send("Failed to fetch user's watchlist");
   }
 });
-
-app.delete("/sellitem", check, async (req, res) => {
-  try {
-    let userId = req.user.id;
-    console.log(userId);
-    let soldStock = await OrderModel.deleteOne({ owner: userId });
-    console.log("Stock Sold");
-    res.send(soldStock);
-  } catch (error) {
-    res.status(404).send("The resource doesn't exist..!!");
-  }
-});
-
-app.delete("/removewatchlist",check,async(req,res)=>{
-  let userId = req.user.id;
-  const removedHolding = await HoldingModel.deleteOne({owner : userId});
-  res,json(removedHolding);
-})
 
 app.delete("/removewatchlist", check, async (req, res) => {
   try {
@@ -202,6 +137,71 @@ app.delete("/removewatchlist", check, async (req, res) => {
     });
     console.log("Item removed from watchlist!!");
     res.status(200).json({ message: "Item removed" });
+  } catch (error) {
+    res.status(404).send("The resource doesn't exist..!!");
+  }
+});
+
+app.post("/addholdings", check, async (req, res) => {
+  try {
+    let newHolding = new HoldingModel({
+      name: req.body.name,
+      price: req.body.price,
+      qty: req.body.qty,
+      owner: req.user.id,
+    });
+    await newHolding.save();
+    res.send("New Holding");
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.get("/allholdings", check, async (req, res) => {
+  let userId = req.user.id;
+  let allholdings = await HoldingModel.find({ owner: userId });
+  res.json(allholdings);
+});
+
+app.delete("/removeholdings", check, async (req, res) => {
+  let userId = req.user.id;
+  const removedHolding = await HoldingModel.deleteOne({ owner: userId });
+  res, json(removedHolding);
+});
+
+app.post("/addorder", check, async (req, res) => {
+  try {
+    let newOrder = new OrderModel({
+      name: req.body.name,
+      qty: req.body.qty,
+      price: req.body.price,
+      mode: req.body.mode,
+      owner: req.user.id,
+    });
+    await newOrder.save();
+    res.send("New Order placed");
+  } catch (error) {
+    res.status(404).send("The resource doesn't exists..!!");
+  }
+});
+
+app.get("/allorders", check, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    let allorders = await OrderModel.find({ owner: userId });
+    res.json(allorders);
+  } catch (error) {
+    res.status(404).send("The resource doesn't exist..!!");
+  }
+});
+
+app.delete("/sellitem", check, async (req, res) => {
+  try {
+    let userId = req.user.id;
+    console.log(userId);
+    let soldStock = await OrderModel.deleteOne({ owner: userId });
+    console.log("Stock Sold");
+    res.send(soldStock);
   } catch (error) {
     res.status(404).send("The resource doesn't exist..!!");
   }

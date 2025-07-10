@@ -34,7 +34,7 @@ const OrderComponent = ({ orders }) => {
         }, 2000); // 2000 milliseconds = 2 seconds
       });
       await axios
-      .delete("http://localhost:8080/removewatchlist", {
+      .delete("http://localhost:8080/removeholdings", {
         data: { id },
         headers: {
           Authorization: `Bearer ${token}`,
