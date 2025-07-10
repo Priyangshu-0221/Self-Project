@@ -115,8 +115,6 @@ const Page = (uid) => {
                         {stock.volume}
                       </td>
                       <td className="mx-[50%] py-1 text-center font-medium items-center flex justify-around">
-                        {localStorage.getItem("token") && (
-                          <>
                             <button
                               onClick={() => handleAddToWatchlist(stock._id)}
                               className="hover:cursor-pointer"
@@ -135,8 +133,7 @@ const Page = (uid) => {
                               pauseOnHover
                               theme="colored"
                             />
-                          </>
-                        )}
+                          
                       </td>
                     </tr>
                   );

@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Link from "next/link";
-
 const Menu = () => {
   const [menu, setMenu] = useState(0);
   const click = (index) => {
@@ -29,7 +28,7 @@ const Menu = () => {
         onClick={() => {
           setMenu(1);
         }}
-        href="/dashboard/position"
+        href="/dashboard/watchlist"
       >
         <p
           className={`text-md font-medium ${

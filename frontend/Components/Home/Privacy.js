@@ -36,7 +36,7 @@ const Privacy = () => {
         </div>
         <div>
           <img
-            className="h-100 px-25  my-20 mx-25"
+            className="h-100  px-25  my-20 mx-25"
             src="/media/privacylogo.png"
             alt="image"
           />

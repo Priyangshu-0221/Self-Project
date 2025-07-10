@@ -17,10 +17,10 @@ const OrderComponent = ({ orders }) => {
   };
 
   //sending a delete req to backend to sell individual stock with respect to their id
-  const sellItem = (id) => {
+  const sellItem_removeHolding = async (id) => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user");
-    axios
+    await axios
       .delete("http://localhost:8080/sellitem", {
         data: { id },
         headers: {
@@ -33,6 +33,13 @@ const OrderComponent = ({ orders }) => {
           window.location.reload();
         }, 2000); // 2000 milliseconds = 2 seconds
       });
+      await axios
+      .delete("http://localhost:8080/removewatchlist", {
+        data: { id },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
     console.log(id);
   };
 
@@ -64,7 +71,7 @@ const OrderComponent = ({ orders }) => {
                         Edit
                       </button>
                       <button
-                        onClick={() => sellItem(stock._id)}
+                        onClick={() => sellItem_removeHolding(stock._id)}
                         className="h-10 bg-red-500  text-white font-medium text-md cursor-pointer w-24 rounded"
                       >
                         Sell

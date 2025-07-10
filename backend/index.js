@@ -11,13 +11,7 @@ const bcrypt = require("bcryptjs");
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(
-  cors({
-    origin: "http://localhost:3000", //client side URL(basically frontend url)
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    credentials: true,
-  })
-);
+app.use(cors());
 app.use(bodyParser.json());
 const HoldingModel = require("./model/HoldingModel");
 const StockModel = require("./model/StockModel");
@@ -27,7 +21,6 @@ const UserModel = require("./model/UserModel");
 const check = require("./middleware");
 
 const dummydata = require("./data/StocksData");
-const allholdings = require("./data/HoldingsData");
 
 app.post("/newuser", async (req, res) => {
   let { username, password, email } = req.body;
@@ -65,20 +58,19 @@ app.post("/login", async (req, res) => {
   res.json({ token, userId: user._id });
 });
 
-app.get("/addHoldings", async (req, res) => {
-  let holdingsDummy = allholdings;
-  holdingsDummy.forEach((holdingItem) => {
+app.post("/addholdings", check, async (req, res) => {
+  try {
     let newHolding = new HoldingModel({
-      name: holdingItem.name,
-      qty: holdingItem.qty,
-      avg: holdingItem.avg,
-      price: holdingItem.price,
-      net: holdingItem.net,
-      day: holdingItem.day,
+      name: req.body.name,
+      price: req.body.price,
+      qty: req.body.qty,
+      owner: req.user.id,
     });
-    newHolding.save();
-  });
-  res.send("Data Inserted");
+    await newHolding.save();
+    res.send("New Holding");
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 app.get("/addstocks", async (req, res) => {
@@ -108,40 +100,10 @@ app.get("/allstocks", async (req, res) => {
   }
 });
 
-app.get("/allholdings-stream", (req, res) => {
-  try {
-    res.setHeader("Content-Type", "text/event-stream");
-    res.setHeader("Cache-Control", "no-cache");
-    res.setHeader("Connection", "keep-alive");
-    res.flushHeaders(); // send headers immediately
-
-    const intervalId = setInterval(async () => {
-      const allholdings = await HoldingModel.find();
-      const randomholding = allholdings.map((stock) => {
-        const fluctuation = (Math.random() - 0.5) * 4;
-        const newPrice = parseFloat((stock.price + fluctuation).toFixed(2));
-        const dayChange = parseFloat(((Math.random() - 0.5) * 2).toFixed(2));
-        const isLoss = dayChange < 0;
-        const netChange = ((newPrice - stock.avg) / stock.avg) * 100;
-        return {
-          ...stock.toObject(),
-          price: newPrice,
-          net: `${netChange >= 0 ? "+" : ""}${netChange.toFixed(2)}%`,
-          day: `${dayChange >= 0 ? "+" : ""}${dayChange.toFixed(2)}%`,
-          isLoss,
-        };
-      });
-      res.write(`data: ${JSON.stringify(randomholding)}\n\n`);
-    }, 1000);
-
-    req.on("close", () => {
-      clearInterval(intervalId);
-      console.log("SSE connection closed");
-    });
-  } catch (error) {
-    console.error("Error fetching holdings:", error);
-    res.status(500).json({ error: "Server error" });
-  }
+app.get("/allholdings", check, async (req, res) => {
+  let userId = req.user.id;
+  let allholdings = await HoldingModel.find({ owner: userId });
+  res.json(allholdings);
 });
 
 app.post("/addorder", check, async (req, res) => {
@@ -216,15 +178,21 @@ app.delete("/sellitem", check, async (req, res) => {
   try {
     let userId = req.user.id;
     console.log(userId);
-    let deleteditem = await OrderModel.deleteOne({ owner: userId });
+    let soldStock = await OrderModel.deleteOne({ owner: userId });
     console.log("Stock Sold");
-    res.send(deleteditem);
+    res.send(soldStock);
   } catch (error) {
     res.status(404).send("The resource doesn't exist..!!");
   }
 });
 
-app.delete("/removewatchlist", check ,async (req, res) => {
+app.delete("/removewatchlist",check,async(req,res)=>{
+  let userId = req.user.id;
+  const removedHolding = await HoldingModel.deleteOne({owner : userId});
+  res,json(removedHolding);
+})
+
+app.delete("/removewatchlist", check, async (req, res) => {
   try {
     let { uid } = req.body;
     const userId = req.user.id;
@@ -233,7 +201,7 @@ app.delete("/removewatchlist", check ,async (req, res) => {
       owner: userId,
     });
     console.log("Item removed from watchlist!!");
-    res.status(200).json({message : "Item removed"})  ;
+    res.status(200).json({ message: "Item removed" });
   } catch (error) {
     res.status(404).send("The resource doesn't exist..!!");
   }

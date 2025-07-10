@@ -13,7 +13,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-     localStorage.removeItem("userId");
+    localStorage.removeItem("userId");
     window.location.href = "/";
   };
   return (
@@ -46,13 +46,15 @@ const Navbar = () => {
           >
             Mutual Funds
           </a> */}
-            <Link
-              prefetch={true}
-              href="/dashboard"
-              className="font-semibold hover:border-b-2 m-2 hover:scale-125 text-center p-1"
-            >
-              Stocks
-            </Link>
+            {loggedIn && (
+              <Link
+                prefetch={true}
+                href="/dashboard"
+                className="font-semibold hover:border-b-2 m-2 hover:scale-125 text-center p-1"
+              >
+                Stocks
+              </Link>
+            )}
             <Link
               href="/product"
               prefetch={true}
@@ -92,7 +94,7 @@ const Navbar = () => {
               <Link href="">
                 <button
                   onClick={handleLogout}
-                  className="bg-red-500  active:bg-green-500  text-lg text-white font-semibold w-full h-10 px-5 rounded-4xl hover:cursor-pointer hover:scale-110 text-center"
+                  className="bg-red-500  active:bg-white  text-lg text-white font-semibold w-full h-10 px-5 rounded-4xl hover:cursor-pointer hover:scale-110 text-center"
                 >
                   Logout
                   <LogoutIcon fontSize="large" />

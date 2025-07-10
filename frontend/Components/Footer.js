@@ -6,12 +6,14 @@ const Footer = () => {
       <footer className="bg-linear-to-t from-green-600 via-white to-orange-400">
         <div className="flex flex-row justify-between items-center px-20">
           <div>
-            <img
-              className="h-15 rounded-b-full"
-              src="/media/logo.png"
-              alt="logo"
-            />
-            <h1 className="text-2xl font-bold  py-2">Stockify</h1>
+            <div className="flex flex-row gap-2 my-4">
+              <img
+                className="h-15 rounded-b-full"
+                src="/media/logo.png"
+                alt="logo"
+              />
+              <h1 className="text-2xl font-bold  py-2">Stockify</h1>
+            </div>
             <i className=" text-3xl m-1.5 ri-facebook-circle-fill"></i>
             <i className=" text-3xl m-1.5 ri-instagram-fill"></i>
             <i className=" text-3xl m-1.5 ri-twitter-x-fill"></i>

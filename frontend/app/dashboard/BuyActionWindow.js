@@ -7,11 +7,11 @@ const BuyActionWindow = ({ uid }) => {
   const [quantity, setquantity] = useState(1);
   const [price, setprice] = useState(0.0);
 
-  const handleBuyClick = async () => {
+  const handleBuy_Holdings = async () => {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("user");
-    axios
-      .post(
+    try {
+      await axios.post(
         "http://localhost:8080/addorder",
         {
           name: uid,
@@ -25,10 +25,25 @@ const BuyActionWindow = ({ uid }) => {
             Authorization: `Bearer ${token}`,
           },
         }
-      )
-      .then(() => {
-        window.location.reload();
-      });
+      );
+      await axios.post(
+        "http://localhost:8080/addholdings",
+        {
+          name: uid,
+          qty: quantity,
+          price: price,
+          owner: userId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      window.location.href = "/dashboard/holdings";
+    } catch (error) {
+      console.log(error);
+    }
     closeBuyWindow();
   };
 
@@ -76,13 +91,16 @@ const BuyActionWindow = ({ uid }) => {
       <div className="flex flex-row gap-2 items-center justify-center ">
         <button
           className="bg-green-500 w-full h-10 rounded-full"
-          onClick={handleBuyClick}
+          onClick={handleBuy_Holdings}
         >
           Buy
         </button>
         <button
           className="bg-red-500 w-full h-10 rounded-full"
-          onClick={handleCancelClick}
+          onClick={() => {
+            handleBuyClick();
+            addToHoldings();
+          }}
         >
           Cancel
         </button>
