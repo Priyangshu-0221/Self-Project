@@ -1,124 +1,218 @@
 # ⚡️ Stockify — Frontend
 
-> A modern, sleek stock market dashboard and trading platform built with **Next.js**, **Tailwind CSS**, and **Clerk** authentication.
+> A modern, sleek stock market dashboard and trading platform built with **Next.js 14**, **Tailwind CSS**, and **Server-Sent Events** for real-time updates.
 
-![Next.js](https://img.shields.io/badge/Next.js-000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
-![Clerk Auth](https://img.shields.io/badge/Clerk-3C2A4D?style=for-the-badge&logo=clerk&logoColor=white)
+[![Next.js](https://img.shields.io/badge/Next.js-000?style=for-the-badge&logo=nextdotjs&logoColor=white)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/TailwindCSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)](https://jwt.io/)
+
+---
+
+## 📋 Table of Contents
+- [Overview](#-overview)
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Getting Started](#-getting-started)
+- [Development](#-development)
+- [Deployment](#-deployment)
 
 ---
 
 ## 🧾 Overview
 
-Stockify is a feature-rich stock market app designed to give users an intuitive and responsive experience. With a powerful dashboard, real-time visuals, and modular UI, this frontend sets the tone for a robust trading application.
+Stockify is a feature-rich stock market dashboard that provides real-time market data, portfolio management, and trading capabilities. Built with modern web technologies, it offers an intuitive and responsive experience for traders and investors.
+
+![Dashboard Preview](./public/Media/Images/dashboard-preview.png)
 
 ---
 
-## 🗂️ Folder Structure
+## 🎯 Features
+
+### 📊 Real-time Dashboard
+- Live stock price updates via SSE
+- Interactive charts and graphs
+- Portfolio performance metrics
+- Real-time profit/loss tracking
+
+### 💼 Portfolio Management
+- Holdings overview with live updates
+- Watchlist functionality
+- Order management system
+- Position tracking
+
+### 🛠 Technical Features
+- **Architecture**
+  - Next.js 14 App Router
+  - Server-Side Rendering (SSR)
+  - API Route Handlers
+  - Middleware for authentication
+
+- **UI/UX**
+  - Responsive design
+  - Dark/Light mode
+  - Animated transitions
+  - Toast notifications
+
+- **Performance**
+  - Image optimization
+  - Route prefetching
+  - Component lazy loading
+  - Memoized computations
+
+---
+
+## 💻 Tech Stack
+
+| Technology | Purpose |
+|------------|---------|
+| Next.js 14 | React framework with App Router |
+| Tailwind CSS | Utility-first styling |
+| JWT | Authentication |
+| Axios | API requests |
+| React Query | Server state management |
+
+---
+
+## 📁 Project Structure
+
 ```
 frontend/
-├── .gitignore
-├── README.md
 ├── app/
-│ ├── dashboard/
-│ │ ├── holdings/
-│ │ ├── order/
-│ │ ├── position/
-│ │ ├── funds/
-│ │ ├── watchlist/
-│ │ │ └── WatchlistComponent.js
-│ │ ├── Menu.js
-│ │ └── page.js
-│ ├── about/
-│ ├── pricing/
-│ ├── product/
-│ ├── support/
-│ ├── layout.js
-│ ├── globals.css
-│ └── page.js
-├── Components/
-│ ├── Navbar.js
-│ ├── Footer.js
-│ ├── Home/
-│ │ ├── Homepage.js
-│ │ └── Hero.js
-│ ├── Support/
-│ │ └── SuportHero.js
-│ └── ...more feature-based components
+│   ├── dashboard/             # Dashboard routes
+│   │   ├── holdings/         # Holdings management
+│   │   ├── order/           # Order placement
+│   │   ├── position/        # Position tracking
+│   │   ├── funds/           # Fund management
+│   │   └── watchlist/       # Watchlist component
+│   ├── auth/                # Authentication pages
+│   ├── layout.js            # Root layout
+│   └── page.js              # Home page
+├── components/
+│   ├── ui/                  # Reusable UI components
+│   ├── dashboard/           # Dashboard components
+│   └── shared/              # Shared components
+├── lib/
+│   ├── utils/              # Utility functions
+│   └── hooks/              # Custom hooks
 ├── public/
-│ └── Media/
-│ ├── Images/
-│ └── Videos/
-├── next.config.mjs
-├── postcss.config.mjs
-├── tailwind.config.js
-├── package.json
-└── ...
+│   └── Media/              # Static assets
+└── styles/
+    └── globals.css         # Global styles
 ```
----
-
-## ✨ Features
-
-- ⚙️ **Next.js App Router** — Modern routing with layouts & nested routes.
-- 🎨 **Tailwind CSS** — Utility-first design system for rapid UI building.
-- 🔐 **Clerk Integration** — User authentication and session management.
-- 🧩 **Component-Based Architecture** — Cleanly separated reusable components.
-- 📊 **Stock Dashboard** — Holdings, Orders, Positions, Funds & Watchlist.
-- 📁 **Modular Structure** — Easily extendable and scalable project setup.
 
 ---
 
-## 🚀 Getting Started
+## ⚡️ Getting Started
 
-1. **Clone the repo**
+### Prerequisites
+- Node.js 18+ installed
+- npm or yarn package manager
+- Git for version control
+
+### Installation
+
+1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/stockify.git
-   cd frontend
+   git clone https://github.com/yourusername/stockify-frontend.git
+   cd stockify-frontend
    ```
 
-Install dependencies
-npm install
-Run development server
-npm run dev
-Visit
-Open your browser at: http://localhost:3000
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-🧠 How It’s Built
-| Tech Stack | Description |
-| ---------------- | ------------------------------------------- |
-| **Next.js** | Framework for React with App Router support |
-| **Tailwind CSS** | Utility-first styling |
-| **Clerk** | Authentication and session management |
-| **PostCSS** | Extends Tailwind capabilities |
+3. **Set up environment variables**
+   ```bash
+   cp .env.example .env.local
+   ```
 
-⚒️ Customization Guide
-📄 Add Pages:
-Create a folder and page.js under /app, and Next.js will handle routing.
+4. **Start development server**
+   ```bash
+   npm run dev
+   ```
 
-🧱 Add Components:
-Use /Components folder for custom or reusable components.
+5. **Open browser**
+   Visit [http://localhost:3000](http://localhost:3000)
 
-🖼 Add Media:
-Add static assets to /public/Media/Images/ or /Videos/.
+---
 
-🔑 Environment Variables:
-Store them in .env.local (already .gitignored).
+## 🛠 Development
 
-🧪 Scripts
-Command Description
-npm run dev Run local dev server
-npm run build Create production build
-npm run lint Run ESLint
+### Available Scripts
 
-📝 Notes
-🌐 Routing: Uses file-based routing via /app/.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server |
+| `npm run build` | Build for production |
+| `npm start` | Start production server |
+| `npm run lint` | Run ESLint |
+| `npm run format` | Format with Prettier |
 
-🎨 Styling: Exclusively through Tailwind’s utility classes.
+### Code Style
+- ESLint configuration
+- Prettier for code formatting
+- Husky for pre-commit hooks
 
-🔐 Security: Clerk integration supports OAuth, Email OTP, etc.
+---
 
-⚙️ Modularity: Each dashboard tab is a self-contained route.
+## 📦 Production Deployment
 
-📄 License
-This project is intended for educational and personal use only.
-Feel free to fork and extend it under fair use.
+1. **Build the application**
+   ```bash
+   npm run build
+   ```
+
+2. **Start production server**
+   ```bash
+   npm start
+   ```
+
+---
+
+## 🔑 Environment Variables
+
+```env
+NEXT_PUBLIC_API_URL=http://localhost:8080
+NEXT_PUBLIC_SSE_URL=http://localhost:8080/holdings-stream
+JWT_SECRET=your_jwt_secret
+```
+
+---
+
+## 📈 Performance Optimization
+
+- Image optimization with Next.js Image
+- Dynamic imports for code splitting
+- Memoization for expensive computations
+- Debounced API calls
+- Optimistic UI updates
+
+---
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 👏 Acknowledgments
+
+- Next.js team for the amazing framework
+- Tailwind CSS for the utility-first approach
+- The open-source community
+
+---
+
+*Built with ❤️ by [Priyangshu](https://github.com/Priyangshu-0221)*

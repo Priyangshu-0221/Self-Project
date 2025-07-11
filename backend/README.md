@@ -1,111 +1,190 @@
 # 📦 Stockify Backend
 
-The backend for **Stockify** — a sleek stock market dashboard and trading platform. Built using **Node.js**, **Express**, and **MongoDB**, this backend provides powerful RESTful APIs for managing holdings, positions, and other stock-related data.
+A modern, real-time stock market trading platform backend built with **Node.js**, **Express**, and **MongoDB**. Provides SSE-enabled live data streaming, secure authentication, and comprehensive portfolio management.
+
+[![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
+[![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)](https://expressjs.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 
 ---
 
-## 🚀 Features
-
-- 🔗 RESTful APIs for stocks, holdings, and positions
-- 🧠 MongoDB integration via Mongoose
-- 🌐 CORS-enabled for frontend integration
-- 🧪 Dummy data seeding routes for testing
-- 🧱 Modular schema-model architecture
+## 📋 Table of Contents
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Setup & Installation](#-setup--installation)
+- [API Documentation](#-api-documentation)
+- [Development Notes](#-development-notes)
 
 ---
 
-## 🗂️ Project Structure
+## 🎯 Features
+
+- 🔐 **Secure Authentication**
+  - JWT-based auth system
+  - Password hashing with bcrypt
+  - Token expiration & refresh
+
+- 📊 **Real-time Data**
+  - Server-Sent Events (SSE) for live updates
+  - Real-time price fluctuations
+  - Instant portfolio value updates
+
+- 💼 **Portfolio Management**
+  - Holdings tracking
+  - Watchlist functionality
+  - Order management
+  - Position tracking
+
+- 🛠 **Developer Features**
+  - CORS enabled
+  - Modular architecture
+  - Comprehensive error handling
+  - Test data seeding
+
+---
+
+## 💻 Tech Stack
+
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JWT & bcrypt
+- **Security**: CORS, Helmet
+
+---
+
+## 📁 Project Structure
 
 ```
 backend/
-├── .env                  # Environment variables
-├── index.js              # Server entry point
-├── model/                # Mongoose models
-│   ├── HoldingModel.js
-│   └── PositionModel.js
-├── schemas/              # Mongoose schemas
-│   ├── HoldingSchema.js
-│   └── PositionSchema.js
-├── package.json
-├── package-lock.json
-└── ...
+├── data/
+│   └── StocksData.js        # Seed data
+├── middleware/
+│   ├── auth.js              # JWT authentication
+│   └── errorHandler.js      # Global error handling
+├── models/
+│   ├── HoldingModel.js      # Holdings schema & model
+│   ├── OrderModel.js        # Orders management
+│   ├── StockModel.js        # Stock data
+│   ├── UserModel.js         # User authentication
+│   └── WatchListModel.js    # Watchlist functionality
+├── routes/
+│   ├── auth.js              # Authentication routes
+│   ├── holdings.js          # Portfolio routes
+│   └── watchlist.js         # Watchlist routes
+├── .env                     # Environment configuration
+├── index.js                 # Application entry
+└── package.json
 ```
 
 ---
 
-## ⚙️ Getting Started
+## ⚙️ Setup & Installation
 
-### 1. Clone the Repository
+1. **Clone & Install**
+   ```bash
+   git clone https://github.com/Priyangshu-0221/stockify-backend.git
+   cd stockify-backend
+   npm install
+   ```
+
+2. **Environment Setup**
+   ```bash
+   # Create .env file
+   copy .env.example .env
+   
+   # Configure your variables
+   notepad .env
+   ```
+
+3. **Database Setup**
+   ```bash
+   # Start MongoDB (Windows)
+   "C:\Program Files\MongoDB\Server\{version}\bin\mongod.exe"
+   
+   # Seed initial data
+   npm run seed
+   ```
+
+4. **Start Server**
+   ```bash
+   # Development
+   npm run dev
+   
+   # Production
+   npm start
+   ```
+
+---
+
+## 📡 API Documentation
+
+### 🔐 Authentication
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/auth/register` | Create new user |
+| POST | `/auth/login` | User login |
+| POST | `/auth/refresh` | Refresh token |
+
+### 📈 Portfolio
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/holdings` | Yes | Get user holdings |
+| POST | `/holdings` | Yes | Add new holding |
+| GET | `/holdings/stream` | Yes | Live updates (SSE) |
+
+### 📋 Watchlist
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/watchlist` | Yes | Get watchlist |
+| POST | `/watchlist` | Yes | Add to watchlist |
+| DELETE | `/watchlist/:id` | Yes | Remove item |
+
+### 🔄 Orders
+| Method | Endpoint | Auth Required | Description |
+|--------|----------|---------------|-------------|
+| GET | `/orders` | Yes | Get all orders |
+| POST | `/orders` | Yes | Place new order |
+| DELETE | `/orders/:id` | Yes | Cancel order |
+
+---
+
+## 🧪 Development
 
 ```bash
-git clone <repo-url>
-cd backend
+# Run with nodemon
+npm run dev
+
+# Run tests
+npm test
+
+# Lint code
+npm run lint
 ```
 
-### 2. Install Dependencies
-
-```bash
-npm install
-```
-
-### 3. Configure Environment Variables
-
-Create a `.env` file in the root directory:
+## 📝 Environment Variables
 
 ```ini
-MONGO_URL=mongodb://localhost:27017/stockify
+NODE_ENV=development
 PORT=8080
+MONGODB_URI=mongodb://localhost:27017/stockify
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRE=1h
 ```
-
-### 4. Start the Server
-
-```bash
-node index.js
-```
-
-Server will start at: [http://localhost:8080](http://localhost:8080)
-
----
-
-## 📡 API Endpoints
-
-### 📁 Holdings
-
-| Method | Endpoint        | Description                      |
-|--------|----------------|----------------------------------|
-| GET    | /allholdings   | Fetch all holdings from database |
-| GET    | /addHoldings   | Seed dummy holdings (dev only)   |
-
-### 📊 Positions
-
-| Method | Endpoint        | Description                      |
-|--------|----------------|----------------------------------|
-| GET    | /allpositions  | Fetch all positions from database|
-| GET    | /addPositions  | Seed dummy positions (dev only)  |
-
-> ⚠️ **Note:** Use `/addHoldings` and `/addPositions` only for initial testing. Disable or comment them after seeding to avoid duplicates.
-
----
-
-## 🧩 Code Overview
-
-| File/Folder   | Purpose                                         |
-|---------------|-------------------------------------------------|
-| index.js      | Sets up Express, MongoDB connection, and routes |
-| model/        | Contains Mongoose models (logic + structure)    |
-| schemas/      | Mongoose schemas defining DB document structure |
-
----
-
-## 📝 Developer Notes
-
-- ✅ CORS is pre-configured for development mode.
-- ✅ Mongoose handles schema validation and document modeling.
-- ⚠️ Add proper error handling before deploying to production.
-- 🧪 Dummy data routes help test the UI/UX quickly.
 
 ---
 
 ## 📄 License
 
-This project is open for educational
+MIT © [Your Name]
+
+---
+
+## 🤝 Contributing
+
+1. Fork it
+2. Create feature branch (`git checkout -b feature/foo`)
+3. Commit changes (`git commit -am 'Add foo'`)
+4. Push (`git push origin feature/foo`)
+5. Open Pull Request
