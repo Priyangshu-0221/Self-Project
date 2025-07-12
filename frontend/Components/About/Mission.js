@@ -8,7 +8,7 @@ const Mission = () => {
           <div>
             <img
               className="h-80 rounded-full"
-              src="/media/mission.png"
+              src="/media/marks.png"
               alt="image"
               onContextMenu={e => e.preventDefault()}
             />
@@ -34,7 +34,7 @@ const Mission = () => {
           <div>
             <img
               className="h-80 rounded-full"
-              src="/media/vision.png"
+              src="/media/eye.png"
               alt="image"
               onContextMenu={e => e.preventDefault()}
             />
